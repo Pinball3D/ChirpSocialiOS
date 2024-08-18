@@ -3,15 +3,30 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
+
+/* Begin PBXBuildFile section */
+		497E02512C6D921100497C38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02502C6D921100497C38 /* Alamofire */; };
+		497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02882C6E5E6F00497C38 /* RichTextKit */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		497E022E2C6D81B300497C38 /* ChirpSocial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChirpSocial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		497E024A2C6D913A00497C38 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 497E022D2C6D81B300497C38 /* ChirpSocial */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		497E02302C6D81B300497C38 /* ChirpSocial */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChirpSocial; sourceTree = "<group>"; };
+		497E02302C6D81B300497C38 /* ChirpSocial */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (497E024A2C6D913A00497C38 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ChirpSocial; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -19,6 +34,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */,
+				497E02512C6D921100497C38 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,12 +72,15 @@
 			buildRules = (
 			);
 			dependencies = (
+				497E02552C6D93D400497C38 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				497E02302C6D81B300497C38 /* ChirpSocial */,
 			);
 			name = ChirpSocial;
 			packageProductDependencies = (
+				497E02502C6D921100497C38 /* Alamofire */,
+				497E02882C6E5E6F00497C38 /* RichTextKit */,
 			);
 			productName = ChirpSocial;
 			productReference = 497E022E2C6D81B300497C38 /* ChirpSocial.app */;
@@ -90,6 +110,10 @@
 				Base,
 			);
 			mainGroup = 497E02252C6D81B300497C38;
+			packageReferences = (
+				497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				497E02872C6E5E6F00497C38 /* XCRemoteSwiftPackageReference "RichTextKit" */,
+			);
 			productRefGroup = 497E022F2C6D81B300497C38 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -118,6 +142,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		497E02552C6D93D400497C38 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 497E02542C6D93D400497C38 /* Alamofire */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		497E023A2C6D81B500497C38 /* Debug */ = {
@@ -247,20 +278,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChirpSocial/Preview Content\"";
-				DEVELOPMENT_TEAM = YP4FVCPVGX;
+				DEVELOPMENT_TEAM = D3FVWNX925;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChirpSocial/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Chirp;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpSocial;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -276,20 +310,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChirpSocial/Preview Content\"";
-				DEVELOPMENT_TEAM = YP4FVCPVGX;
+				DEVELOPMENT_TEAM = D3FVWNX925;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChirpSocial/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Chirp;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpSocial;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -319,6 +356,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+		497E02872C6E5E6F00497C38 /* XCRemoteSwiftPackageReference "RichTextKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/RichTextKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		497E02502C6D921100497C38 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		497E02542C6D93D400497C38 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		497E02882C6E5E6F00497C38 /* RichTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 497E02872C6E5E6F00497C38 /* XCRemoteSwiftPackageReference "RichTextKit" */;
+			productName = RichTextKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 497E02262C6D81B300497C38 /* Project object */;
 }

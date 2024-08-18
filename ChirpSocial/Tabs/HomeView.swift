@@ -10,11 +10,11 @@ import SwiftUI
 struct HomeView: View {
     @State var tab: Tab = .forYou
     @State var chirps: [Chirp] = []
-    @ObservedObject var chirpAPI: ChirpAPI = ChirpAPI()
+    var chirpAPI: ChirpAPI = ChirpAPI()
     @State var compose = false
     @State var popover = false
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
                 HStack {
                     Spacer()
@@ -22,38 +22,59 @@ struct HomeView: View {
                     Spacer()
                 }.overlay {
                     HStack {
-                        Button(action: {
-                            popover.toggle()
-                        }, label: {
-                            Image("user")
-                        })
+                        NavigationLink {
+                            SettingsView()
+                        } label: {
+                            Image("settings").resizable().frame(width: 25, height: 25)
+                        }
                         Spacer()
                     }
                 }
                 Picker("", selection: $tab) {
                     Text("For You").tag(Tab.forYou)
                     Text("Following").tag(Tab.following)
-                }.pickerStyle(.palette)
+                }.pickerStyle(.segmented)
                 if tab == .forYou {
                     ScrollView {
                         LazyVStack {
-                            ForEach(chirps) { chirp in
-                                ChirpPreviewView(chirp: chirp)
+                            ForEach(0..<chirps.count, id: \.self) { i in
+                                if i == chirps.count - 3 {
+                                    ChirpPreviewView(chirp: chirps[i])
+                                        .onAppear() {
+                                            chirpAPI.get(.chirps, offset: chirps.count, callback: { chirps, success, error in
+                                                if success {
+                                                    self.chirps += chirps
+                                                }
+                                            })
+                                        }
+                                } else {
+                                    ChirpPreviewView(chirp: chirps[i])
+                                }
                             }
-                            Text("You've Reached the End....").onAppear() {
-                                chirpAPI.getNewPosts(offset: chirps.count)
+                            if !chirps.isEmpty {
+                                Text("You've Reached the End....").onAppear() {
+                                    chirpAPI.get(.chirps, offset: chirps.count, callback: { chirps, success, error in
+                                        if success {
+                                            self.chirps += chirps
+                                        }
+                                    })
+                                }
                             }
                         }
                     }
                     .onAppear {
-                        chirpAPI.callback = {
-                            self.chirps += chirpAPI.chirps
-                        }
-                        chirpAPI.getNewPosts(offset: chirps.count)
+                        chirpAPI.get(.chirps, offset: 0, callback: { chirps, success, error in
+                            if success {
+                                self.chirps += chirps
+                            }
+                        })
                     }
                     .refreshable {
-                        chirps = []
-                        chirpAPI.getNewPosts(offset: chirps.count)
+                        chirpAPI.get(.chirps, offset: 0, callback: { chirps, success, error in
+                            if success {
+                                self.chirps = chirps
+                            }
+                        })
                     }
                 } else {
                     Text("If you want to use the Following tab you need to follow people first! 😝").multilineTextAlignment(.center)
@@ -62,25 +83,31 @@ struct HomeView: View {
             }
             .padding(.horizontal)
             .overlay {
-                VStack {
-                    Spacer()
-                    HStack {
+                if (chirpAPI.getSessionToken() != "") {
+                    VStack {
                         Spacer()
-                        Button {
-                            compose = true
-                        } label: {
-                            Text("Chirp").font(.headline)
+                        HStack {
+                            Spacer()
+                            Button {
+                                compose = true
+                            } label: {
+                                Text("Chirp").font(.headline)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .foregroundStyle(.black)
+                            .padding()
+                
                         }
-                        .buttonStyle(.borderedProminent)
-                        .foregroundStyle(.black)
-                        .padding()
-
                     }
                 }
             }
         }.popover(isPresented: $popover) {
+            
             if chirpAPI.getSessionToken() != "" {
                 Text("you are signed in")
+                Button("remove token/signout") {
+                    UserDefaults.standard.set("", forKey: "PHPSESSID")
+                }
             } else {
                 SignInOutView(popover: $popover)
             }
