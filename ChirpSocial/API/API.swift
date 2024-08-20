@@ -138,6 +138,19 @@ class ChirpAPI {
             } else if let data = data {
                 let str = String(data: data, encoding: .utf8)
                 print(str ?? "")
+                let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String:Any]
+                print("hi")
+                if json?["error"] == nil {
+                    
+                } else if json?["error"] as! String == "Please fill in both fields." {
+                    print("hi2")
+                    callback(false, "Please fill in both fields.")
+                    return
+                } else {
+                    callback(false, "An error occoured while logging in. Please try again later or check your username and password.")
+                    return
+                }
+                print("hi3")
                 var done = false
                 let cookies = AF.session.configuration.httpCookieStorage?.cookies(for: URL(string: "https://beta.chirpsocial.net/signin/signin.php")!)
                 cookies?.forEach {
@@ -185,7 +198,7 @@ class ChirpAPI {
     }
     func chirp(content: String, parent: Int? = nil) {
         let parameters: Parameters = [
-            "chirpComposeText": content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            "chirpComposeText": content
         ]
         let headers: HTTPHeaders = [
             "Cookie": "PHPSESSID="+self.getSessionToken(),

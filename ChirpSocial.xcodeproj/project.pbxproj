@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		497E02512C6D921100497C38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02502C6D921100497C38 /* Alamofire */; };
 		497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02882C6E5E6F00497C38 /* RichTextKit */; };
+		498EEC672C742F9C0098C357 /* LinkPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 498EEC662C742F9C0098C357 /* LinkPreview */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				498EEC672C742F9C0098C357 /* LinkPreview in Frameworks */,
 				497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */,
 				497E02512C6D921100497C38 /* Alamofire in Frameworks */,
 			);
@@ -81,6 +83,7 @@
 			packageProductDependencies = (
 				497E02502C6D921100497C38 /* Alamofire */,
 				497E02882C6E5E6F00497C38 /* RichTextKit */,
+				498EEC662C742F9C0098C357 /* LinkPreview */,
 			);
 			productName = ChirpSocial;
 			productReference = 497E022E2C6D81B300497C38 /* ChirpSocial.app */;
@@ -113,6 +116,7 @@
 			packageReferences = (
 				497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				497E02872C6E5E6F00497C38 /* XCRemoteSwiftPackageReference "RichTextKit" */,
+				498EEC652C742F9C0098C357 /* XCRemoteSwiftPackageReference "LinkPreview" */,
 			);
 			productRefGroup = 497E022F2C6D81B300497C38 /* Products */;
 			projectDirPath = "";
@@ -374,6 +378,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		498EEC652C742F9C0098C357 /* XCRemoteSwiftPackageReference "LinkPreview" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/NuPlay/LinkPreview.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -391,6 +403,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 497E02872C6E5E6F00497C38 /* XCRemoteSwiftPackageReference "RichTextKit" */;
 			productName = RichTextKit;
+		};
+		498EEC662C742F9C0098C357 /* LinkPreview */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 498EEC652C742F9C0098C357 /* XCRemoteSwiftPackageReference "LinkPreview" */;
+			productName = LinkPreview;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

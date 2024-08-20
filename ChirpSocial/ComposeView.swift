@@ -21,6 +21,7 @@ struct ComposeView: View {
                 Spacer()
                 Button("Chirp") {
                     chirpAPI.chirp(content: content)
+                    popover.toggle()
                 }
                 .buttonStyle(.borderedProminent)
                 .foregroundStyle(.black)

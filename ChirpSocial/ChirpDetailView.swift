@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LinkPreview
 
 struct ChirpDetailView: View {
     @State var errorMessage = ""
@@ -35,7 +36,7 @@ struct ChirpDetailView: View {
                     Spacer()
                 }
                 HStack {
-                    Text(try! AttributedString(markdown: chirp.chirp.replacingOccurrences(of: "<br />", with: "\\n")))
+                    Utility().content(chirp.chirp)
                     Spacer()
                 }.padding(.vertical, 10)
                 Divider()
@@ -84,5 +85,10 @@ struct ChirpDetailView: View {
 }
 
 #Preview {
-    ChirpDetailView(chirp: Chirp(id: 5326, user: 166, type: "post", chirp: "Hey people<br />hi", parent: nil, timestamp: 1723679455, via: nil, username: "ILoveRoadBlocks", name: "ddfdfdf", profilePic: "https://pbs.twimg.com/profile_images/1823159537722966017/K2kTp1hC.jpg", isVerified: false, likeCount: 7, rechirpCount: 8, replyCount: 9, likedByCurrentUser: false, rechirpedByCurrentUser: false))
+    ChirpDetailView(chirp: Chirp(id: 5326, user: 166, type: "post", chirp: "This is a test @chirp https://pbs.twimg.com/media/GVWrpjAWAAAQu1G?format=jpg&amp;name=medium look at this cool git link https://github.com/NuPlay/LinkPreview", parent: nil, timestamp: 1723679455, via: nil, username: "chirp", name: "Chirp", profilePic: "https://pbs.twimg.com/profile_images/1798508305687441408/5gv4drcK_400x400.jpg", isVerified: false, likeCount: 7, rechirpCount: 8, replyCount: 9, likedByCurrentUser: false, rechirpedByCurrentUser: false))
+}
+
+struct Mention {
+    var text: String
+    var after: Int
 }

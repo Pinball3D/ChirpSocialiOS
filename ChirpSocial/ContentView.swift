@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var tab: Section = .home
+    @State var tab = 0
     var body: some View {
         TabView(selection: $tab) {
             HomeView().tabItem {
-                Image("house").tint(.accentColor)
-            }
+                Image("house")
+            }.tag(0)
             DiscoverTab().tabItem {
                 Image("search")
-            }
+                if (tab == 1) {
+                    Color.accentColor
+                }
+            }.tag(1)
             NotificationsTab().tabItem {
                 Image("bell")
-            }
+            }.tag(2)
             MessagesTab().tabItem {
                 Image("envelope")
-            }
+            }.tag(3)
             ProfileTab().tabItem {
                 Image("person")
-            }
+            }.tag(4)
         }.onAppear {
             UITextView.appearance().font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle(rawValue: "jost"))
             UITabBar.appearance().itemSpacing = 80
@@ -35,14 +38,6 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-}
-
-enum Section {
-    case home
-    case discover
-    case notifications
-    case inbox
-    case profile
 }
 
 

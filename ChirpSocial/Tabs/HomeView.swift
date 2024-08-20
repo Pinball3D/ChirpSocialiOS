@@ -36,16 +36,21 @@ struct HomeView: View {
                 }.pickerStyle(.segmented)
                 if tab == .forYou {
                     ScrollView {
-                        LazyVStack {
+                        VStack {
                             ForEach(0..<chirps.count, id: \.self) { i in
                                 if i == chirps.count - 3 {
                                     ChirpPreviewView(chirp: chirps[i])
-                                        .onAppear() {
-                                            chirpAPI.get(.chirps, offset: chirps.count, callback: { chirps, success, error in
-                                                if success {
-                                                    self.chirps += chirps
+                                        .background {
+                                            LazyVStack {
+                                                Color.clear.onAppear {
+                                                    print("loading")
+                                                     chirpAPI.get(.chirps, offset: chirps.count, callback: { chirps, success, error in
+                                                                if success {
+                                                                    self.chirps += chirps
+                                                        }
+                                                    })
                                                 }
-                                            })
+                                            }
                                         }
                                 } else {
                                     ChirpPreviewView(chirp: chirps[i])
@@ -65,7 +70,7 @@ struct HomeView: View {
                     .onAppear {
                         chirpAPI.get(.chirps, offset: 0, callback: { chirps, success, error in
                             if success {
-                                self.chirps += chirps
+                                self.chirps = chirps
                             }
                         })
                     }
@@ -96,10 +101,11 @@ struct HomeView: View {
                             .buttonStyle(.borderedProminent)
                             .foregroundStyle(.black)
                             .padding()
+                            .disabled(UserDefaults.standard.string(forKey: "PHPSESSID") == "")
                 
                         }
                     }
-                }
+                } else { VStack { EmptyView() } }
             }
         }.popover(isPresented: $popover) {
             

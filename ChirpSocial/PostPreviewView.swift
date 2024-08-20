@@ -35,7 +35,7 @@ struct ChirpPreviewView: View {
                             }
                         }.frame(maxWidth: .infinity)
                         HStack {
-                            Text(try! AttributedString(markdown: chirp.chirp)).multilineTextAlignment(.leading)
+                            Utility().content(chirp.chirp)
                             Spacer()
                         }.padding(.vertical, 10)
                     }
