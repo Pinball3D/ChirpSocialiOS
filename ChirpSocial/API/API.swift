@@ -6,6 +6,7 @@
 //
 import Alamofire
 import Foundation
+import SwiftSoup
 
 class ChirpAPI {
     func get(_ type: getType, offset: Int, userId: Int? = nil, chirpId: Int? = nil, callback: @escaping (_ response: [Chirp], _ success: Bool, _ errorMessage: String?) -> Void) {
@@ -69,35 +70,6 @@ class ChirpAPI {
             print("todo")
             callback([], false, "This feature is not yet implemented.")
         }
-    }
-    
-    func getProfileInfo(userID: Int) {
-        //self.loading = true
-        //var profile: Profile = Profile(profilePic: "", chirps: [], replies: [])
-        AF.request("https://beta.chirpsocial.net/user/fetch_chirps.php?offset=0&user="+String(userID)).responseDecodable(of: [Chirp].self) { response in
-            switch response.result {
-            case .success(let APIchirps):
-                //profile.chirps = APIchirps
-                print(APIchirps)
-            case .failure(let error):
-                print("Error: \(error)")
-                //self.error = error
-            }
-        }
-        //print(profile.chirps[0].profilePic)
-        //.profilePic = profile.chirps[0].profilePic
-        AF.request("https://beta.chirpsocial.net/user/fetch_replies.php?offset=0&user="+String(userID)).responseDecodable(of: [Chirp].self) { response in
-            //switch response.result {
-            //case .success(let APIchirps):
-                //profile.replies = APIchirps
-            //case .failure(let error):
-            //    print("Error: \(error)")
-                //self.error = error
-            //}
-        }
-        //self.profile = profile
-        //self.loading = false
-        //self.callback?(nil)
     }
     
     func signIn(username: String, password: String, callback: @escaping (_ success: Bool, _ message: String?) -> Void) {
@@ -220,6 +192,39 @@ class ChirpAPI {
             }
         }
     }
+    func getProfile(username: String, callback: @escaping (_ success: Bool, _ errorMessage: String?, _ profile: Profile?) -> Void) {
+        var profile = Profile(id: 0, name: "", username: "", bannerPic: "", profilePic: "", followingCount: 0, followersCount: 0, joinedDate: "", bio: "")
+        AF.request("https://beta.chirpsocial.net/user/?id="+username).response { data in
+            switch data.result {
+            case .success(let res):
+                do {
+                    let html = try SwiftSoup.parse(String(data: res!, encoding: .utf8)!)
+                    let accInfoDiv = try html.select(".accountInfo")[0]
+                    let acc = try html.select(".account")[0]
+                    let accStats = try html.select("#accountStats")[0]
+                    profile.profilePic = try accInfoDiv.children()[0].children()[0].attr("src")
+                    profile.bannerPic = try html.select(".userBanner")[0].attr("src")
+                    profile.name = try accInfoDiv.children()[0].children()[1].children()[0].text().trimmingCharacters(in: .whitespaces)
+                    profile.username = try accInfoDiv.children()[0].children()[1].children()[1].text()
+                    profile.bio = try acc.children()[1].text().trimmingCharacters(in: .whitespaces)
+                    profile.followingCount = Int(try accStats.children()[0].text().replacingOccurrences(of: " following", with: "")) ?? 0
+                    profile.followersCount = Int(try accStats.children()[1].text().replacingOccurrences(of: " followers", with: "")) ?? 0
+                    profile.joinedDate = try accStats.children()[2].text().trimmingCharacters(in: .whitespacesAndNewlines)
+                    let script = html.body()?.children().last()
+                    for line in try script!.html().split(separator: "\r\n") {
+                        if line.contains("/user/fetch_chirps.php?offset=") {
+                            profile.id = Int(line.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "fetch(`/user/fetch_chirps.php?offset=${offset}&user=", with: "").replacingOccurrences(of: "`)", with: "")) ?? 0
+                        }
+                    }
+                    callback(true, nil, profile)
+                } catch {
+                    callback(false, "An internal error occoured.", nil)
+                }
+            case .failure(_):
+                callback(false, "An internal error occoured.", nil)
+            }
+        }
+    }
 }
 
 struct interation: Encodable {
@@ -237,12 +242,6 @@ struct InterationResponse {
 struct ChirpResponse {
     let success: Bool
     let id: Bool
-}
-
-struct Profile {
-    var profilePic: String
-    var chirps: [Chirp]
-    var replies: [Chirp]
 }
 
 enum getType {

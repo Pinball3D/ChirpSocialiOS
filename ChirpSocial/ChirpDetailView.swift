@@ -18,22 +18,26 @@ struct ChirpDetailView: View {
     var body: some View {
         ScrollView {
             VStack {
-                HStack {
-                    AsyncImage(url: URL(string: chirp.profilePic), content: { image in
-                        image.resizable().clipShape(Circle()).frame(width: 50, height: 50)//.padding(-20)
-                    }, placeholder: {
-                        Image("user").resizable().frame(width: 50, height: 50)//.padding(-20)
-                    })
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(chirp.name)
-                            if chirp.isVerified {
-                                Image("verified").resizable().frame(width: 15, height: 15)
-                            }
+                NavigationLink {
+                    ProfileView(username: chirp.username)
+                } label: {
+                    HStack {
+                        AsyncImage(url: URL(string: chirp.profilePic), content: { image in
+                            image.resizable().clipShape(Circle()).frame(width: 50, height: 50)//.padding(-20)
+                        }, placeholder: {
+                            Image("user").resizable().frame(width: 50, height: 50)//.padding(-20)
+                        })
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text(chirp.name)
+                                if chirp.isVerified {
+                                    Image("verified").resizable().frame(width: 15, height: 15)
+                                }
+                            }.foregroundStyle(.foreground)
+                            Text("@"+chirp.username)
                         }
-                        Text("@"+chirp.username)
+                        Spacer()
                     }
-                    Spacer()
                 }
                 HStack {
                     Utility().content(chirp.chirp)
@@ -85,7 +89,9 @@ struct ChirpDetailView: View {
 }
 
 #Preview {
-    ChirpDetailView(chirp: Chirp(id: 5326, user: 166, type: "post", chirp: "This is a test @chirp https://pbs.twimg.com/media/GVWrpjAWAAAQu1G?format=jpg&amp;name=medium look at this cool git link https://github.com/NuPlay/LinkPreview", parent: nil, timestamp: 1723679455, via: nil, username: "chirp", name: "Chirp", profilePic: "https://pbs.twimg.com/profile_images/1798508305687441408/5gv4drcK_400x400.jpg", isVerified: false, likeCount: 7, rechirpCount: 8, replyCount: 9, likedByCurrentUser: false, rechirpedByCurrentUser: false))
+    NavigationStack {
+        ChirpDetailView(chirp: Chirp(id: 5326, user: 166, type: "post", chirp: "This is a test @chirp https://pbs.twimg.com/media/GVWrpjAWAAAQu1G?format=jpg&amp;name=medium look at this cool git link https://github.com/NuPlay/LinkPreview", parent: nil, timestamp: 1723679455, via: nil, username: "chirp", name: "Chirp", profilePic: "https://pbs.twimg.com/profile_images/1798508305687441408/5gv4drcK_400x400.jpg", isVerified: false, likeCount: 7, rechirpCount: 8, replyCount: 9, likedByCurrentUser: false, rechirpedByCurrentUser: false))
+    }
 }
 
 struct Mention {

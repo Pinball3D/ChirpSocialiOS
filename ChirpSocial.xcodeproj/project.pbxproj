@@ -10,6 +10,7 @@
 		497E02512C6D921100497C38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02502C6D921100497C38 /* Alamofire */; };
 		497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02882C6E5E6F00497C38 /* RichTextKit */; };
 		498EEC672C742F9C0098C357 /* LinkPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 498EEC662C742F9C0098C357 /* LinkPreview */; };
+		498EEC6F2C7A82E70098C357 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 498EEC6E2C7A82E70098C357 /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				498EEC672C742F9C0098C357 /* LinkPreview in Frameworks */,
+				498EEC6F2C7A82E70098C357 /* SwiftSoup in Frameworks */,
 				497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */,
 				497E02512C6D921100497C38 /* Alamofire in Frameworks */,
 			);
@@ -84,6 +86,7 @@
 				497E02502C6D921100497C38 /* Alamofire */,
 				497E02882C6E5E6F00497C38 /* RichTextKit */,
 				498EEC662C742F9C0098C357 /* LinkPreview */,
+				498EEC6E2C7A82E70098C357 /* SwiftSoup */,
 			);
 			productName = ChirpSocial;
 			productReference = 497E022E2C6D81B300497C38 /* ChirpSocial.app */;
@@ -117,6 +120,7 @@
 				497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				497E02872C6E5E6F00497C38 /* XCRemoteSwiftPackageReference "RichTextKit" */,
 				498EEC652C742F9C0098C357 /* XCRemoteSwiftPackageReference "LinkPreview" */,
+				498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 497E022F2C6D81B300497C38 /* Products */;
 			projectDirPath = "";
@@ -279,6 +283,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChirpSocial/ChirpSocial.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChirpSocial/Preview Content\"";
@@ -311,6 +316,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChirpSocial/ChirpSocial.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChirpSocial/Preview Content\"";
@@ -386,6 +392,14 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -408,6 +422,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 498EEC652C742F9C0098C357 /* XCRemoteSwiftPackageReference "LinkPreview" */;
 			productName = LinkPreview;
+		};
+		498EEC6E2C7A82E70098C357 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

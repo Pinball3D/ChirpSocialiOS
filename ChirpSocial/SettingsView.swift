@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     var chirpAPI = ChirpAPI()
@@ -43,7 +44,17 @@ struct SettingsView: View {
                 }
             }
             Section {
-                Text("Umm nothing to see here...")
+                Text(UserDefaults.standard.string(forKey: "APNStoken") ?? "notifs not enabled")
+                .contextMenu {
+                    Button(action: {
+                        UIPasteboard.general.string = UserDefaults.standard.string(forKey: "APNStoken") ?? "notifs not enabled"
+                    }) {
+                        Label("Copy", systemImage: "doc.on.doc")
+                    }
+                }
+            }
+            Section {
+                Text("Still nothing to see here...")
             }
             Section {
                 Text("Follow Me!")

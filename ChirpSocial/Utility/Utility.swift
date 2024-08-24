@@ -27,7 +27,7 @@ class Utility {
         var links: [String] = []
         var text: [String] = []
         var videos: [String] = []
-        let parts = content.replacingOccurrences(of: "<br />", with: " \n ").replacingOccurrences(of: "&#039;", with: "'").replacingOccurrences(of: "\r", with: "").replacingOccurrences(of: "\n", with: "").split(separator: " ")
+        let parts = content.replacingOccurrences(of: "<br />", with: " \n ").replacingOccurrences(of: "&#039;", with: "'").replacingOccurrences(of: "&quot;", with: "\"").replacingOccurrences(of: "\r", with: "").replacingOccurrences(of: "\n", with: "").split(separator: " ")
         for index in 0..<parts.count {
             let part = parts[index]
             if part.starts(with: "@") {
