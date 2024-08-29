@@ -9,7 +9,13 @@ import SwiftUI
 
 struct ProfileTab: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            if UserDefaults.standard.string(forKey: "username") == nil {
+                Text("You need to be signed in.")
+            } else {
+                ProfileView(username: UserDefaults.standard.string(forKey: "username")!)
+            }
+        }
     }
 }
 

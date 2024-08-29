@@ -18,17 +18,30 @@ struct SettingsView: View {
     @State var showAlert = false
     @State var alertMessage: String = ""
     @State var signInOut: Bool = false
+    @State var profile: Profile? = nil
     var body: some View {
         List {
             Section {
                 HStack {
-                    Image("user").resizable().frame(width: 75, height: 75).clipShape(Circle())
+                    if profile == nil {
+                        Image("user").resizable().frame(width: 75, height: 75).clipShape(Circle())
+                    } else {
+                        AsyncImage(url: URL(string: profile!.profilePic)) { image in
+                            image.resizable().frame(width: 50, height: 50).clipShape(Circle())
+                        } placeholder: {
+                            ProgressView()
+                        }
+
+                    }
                     VStack(alignment: .leading) {
-                        Text("Account").font(.title2).bold()
+                        Text((profile == nil) ? "Account" : "@"+profile!.username).font(.title2).bold()
                         //replace with button
                         Button {
                             if isSignedIn {
                                 UserDefaults.standard.set("", forKey: "PHPSESSID")
+                                UserDefaults.standard.set(nil, forKey: "username")
+                                profile = nil
+                                isSignedIn = false
                             } else {
                                 signInOut.toggle()
                             }
@@ -65,6 +78,14 @@ struct SettingsView: View {
             Section {
                 Text("THIS IS AN UNOFFICIAL CHIRP CLIENT. CHIRP IS NOT A PART OF THIS APP. ANY ISSUE SHOULD BE REPORTED TO andrew@smileyzone.net NOT CHIRP")
             }
+            Section(header: Text("section_header_developer")) {
+                Button("dev_remove_phpsessid") {
+                    UserDefaults.standard.set(nil, forKey: "PHPSESSID")
+                }
+                Button("dev_remove_username") {
+                    UserDefaults.standard.set(nil, forKey: "username")
+                }
+            }
         }.popover(isPresented: $signInOut) {
             VStack {
                 VStack {
@@ -79,12 +100,14 @@ struct SettingsView: View {
                         .textFieldStyle(.roundedBorder)
                     Button(action: {
                         isProccessing = true
-                        chirpAPI.signIn(username: username, password: password) { success, message in
+                        chirpAPI.signIn(username: username, password: password) { success, message, profile in
                             if (success) {
                                 isProccessing = false
                                 self.username = ""
                                 self.password = ""
                                 self.isSignedIn = true
+                                self.profile = profile
+                                UserDefaults.standard.set(profile?.username, forKey: "username")
                                 signInOut.toggle()
                             } else {
                                 alertMessage = message!
@@ -109,6 +132,13 @@ struct SettingsView: View {
                 Text(alertMessage)
             }
             Spacer()
+        }.onAppear() {
+            if UserDefaults.standard.string(forKey: "username") != nil {
+                chirpAPI.getProfile(username: UserDefaults.standard.string(forKey: "username")!) { success, errorMessage, profile in
+                    self.profile = profile
+                    print(profile?.username)
+                }
+            }
         }
     }
 }

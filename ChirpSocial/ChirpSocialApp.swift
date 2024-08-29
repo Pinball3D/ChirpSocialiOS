@@ -33,7 +33,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound, .badge])
+        center.setBadgeCount(0)
+        completionHandler([.sound, .badge, .banner])
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
        // Convert device token to string
@@ -41,6 +42,26 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         let token = tokenParts.joined()
         print("Device Token: \(token)")
         UserDefaults.standard.set(token, forKey: "APNStoken")
+        print("hmmm")
+        if ChirpAPI().getSessionToken() != "" {
+            print("there is a session ID")
+            if UserDefaults.standard.string(forKey: "username") == nil {
+                ChirpAPI().sendAPNSTokenToDiscord(token: token, username: "No username, prompting user now....") { success, errorMessage in
+                    print("maybe")
+                }
+                UserDefaults.standard.set(true, forKey: "needUsername")
+            } else {
+                ChirpAPI().sendAPNSTokenToDiscord(token: token, username: UserDefaults.standard.string(forKey: "username")!) { success, errorMessage in
+                    print("maybe")
+                }
+            }
+            
+        } else {
+            print("no session ID")
+            ChirpAPI().sendAPNSTokenToDiscord(token: token, username: "LITERALLY AN UNKNOWN USER") { success, errorMessage in
+                print("maybe")
+            }
+        }
         // Send token to server
     }
 }

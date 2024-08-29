@@ -12,7 +12,6 @@ struct HomeView: View {
     @State var chirps: [Chirp] = []
     var chirpAPI: ChirpAPI = ChirpAPI()
     @State var compose = false
-    @State var popover = false
     var body: some View {
         NavigationView {
             VStack {
@@ -106,16 +105,6 @@ struct HomeView: View {
                         }
                     }
                 } else { VStack { EmptyView() } }
-            }
-        }.popover(isPresented: $popover) {
-            
-            if chirpAPI.getSessionToken() != "" {
-                Text("you are signed in")
-                Button("remove token/signout") {
-                    UserDefaults.standard.set("", forKey: "PHPSESSID")
-                }
-            } else {
-                SignInOutView(popover: $popover)
             }
         }.popover(isPresented: $compose) {
             ComposeView(popover: $compose)

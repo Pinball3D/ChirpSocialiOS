@@ -72,7 +72,7 @@ class ChirpAPI {
         }
     }
     
-    func signIn(username: String, password: String, callback: @escaping (_ success: Bool, _ message: String?) -> Void) {
+    func signIn(username: String, password: String, callback: @escaping (_ success: Bool, _ message: String?, _ profile: Profile?) -> Void) {
         let data = NSMutableData(data: ("username=\(username)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!.data(using: .utf8)!)
         data.append(("&pWord=\(password)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!.data(using: .utf8)!)
 
@@ -105,7 +105,7 @@ class ChirpAPI {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("Error: \(error)")
-                callback(false, "An error occoured while logging in. Please try again later or check your username and password.")
+                callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
                 return
             } else if let data = data {
                 let str = String(data: data, encoding: .utf8)
@@ -113,29 +113,38 @@ class ChirpAPI {
                 let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String:Any]
                 print("hi")
                 if json?["error"] == nil {
-                    
+                    do {
+                        let html = try SwiftSoup.parse(String(data: data, encoding: .utf8)!)
+                        let settingsWrapper = try html.select("#settingsButtonWrapper")[0]
+                        let username = try settingsWrapper.children()[1].children()[1].text().trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "@", with: "")
+                        var done = false
+                        let cookies = AF.session.configuration.httpCookieStorage?.cookies(for: URL(string: "https://beta.chirpsocial.net/signin/signin.php")!)
+                        cookies?.forEach {
+                            if $0.name == "PHPSESSID" {
+                                print($0.value)
+                                UserDefaults.standard.set($0.value, forKey: "PHPSESSID")
+                                self.getProfile(username: username) { success, errorMessage, profile in
+                                    if success {
+                                        callback(true, nil, profile)
+                                    }
+                                    done = true
+                                    return
+                                }
+                            }
+                        }
+                        if !done {
+                            callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
+                        }
+                    } catch {
+                        callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
+                    }
                 } else if json?["error"] as! String == "Please fill in both fields." {
                     print("hi2")
-                    callback(false, "Please fill in both fields.")
+                    callback(false, "Please fill in both fields.", nil)
                     return
                 } else {
-                    callback(false, "An error occoured while logging in. Please try again later or check your username and password.")
+                    callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
                     return
-                }
-                print("hi3")
-                var done = false
-                let cookies = AF.session.configuration.httpCookieStorage?.cookies(for: URL(string: "https://beta.chirpsocial.net/signin/signin.php")!)
-                cookies?.forEach {
-                    if $0.name == "PHPSESSID" {
-                        print($0.value)
-                        UserDefaults.standard.set($0.value, forKey: "PHPSESSID")
-                        callback(true, nil)
-                        done = true
-                        return
-                    }
-                }
-                if !done {
-                    callback(false, "An error occoured while logging in. Please try again later or check your username and password.")
                 }
             }
         }
@@ -205,7 +214,7 @@ class ChirpAPI {
                     profile.profilePic = try accInfoDiv.children()[0].children()[0].attr("src")
                     profile.bannerPic = try html.select(".userBanner")[0].attr("src")
                     profile.name = try accInfoDiv.children()[0].children()[1].children()[0].text().trimmingCharacters(in: .whitespaces)
-                    profile.username = try accInfoDiv.children()[0].children()[1].children()[1].text()
+                    profile.username = try accInfoDiv.children()[0].children()[1].children()[1].text().replacingOccurrences(of: "@", with: "")
                     profile.bio = try acc.children()[1].text().trimmingCharacters(in: .whitespaces)
                     profile.followingCount = Int(try accStats.children()[0].text().replacingOccurrences(of: " following", with: "")) ?? 0
                     profile.followersCount = Int(try accStats.children()[1].text().replacingOccurrences(of: " followers", with: "")) ?? 0
@@ -222,6 +231,38 @@ class ChirpAPI {
                 }
             case .failure(_):
                 callback(false, "An internal error occoured.", nil)
+            }
+        }
+    }
+    func getUsernameFromSessionId(sessionId: String, callback: @escaping (_ success: Bool, _ errorMessage: String?, _ username: String?) -> Void) {
+        let headers: HTTPHeaders = ["Cookie": "PHPSESSID="+self.getSessionToken()]
+        AF.request("https://beta.chirpsocial.net/", headers: headers).response { data in
+            switch data.result {
+            case .success(let response):
+                do {
+                    print(String(data: response!, encoding: .utf8)!)
+                    let html = try SwiftSoup.parse(String(data: response!, encoding: .utf8)!)
+                    if try html.select(".accountInfo").count >= 1 {
+                        let accInfoDiv = try html.select(".accountInfo")[0]
+                        let username = try accInfoDiv.children()[0].children()[1].children()[1].text().replacingOccurrences(of: "@", with: "")
+                        callback(true, nil, username)
+                    }
+                    callback(false, "An internal error occoured.", nil)
+                } catch {
+                    callback(false, "An internal error occoured.", nil)
+                }
+            case .failure(_):
+                callback(false, "An internal error occoured.", nil)
+            }
+        }
+    }
+    func sendAPNSTokenToDiscord(token: String, username: String, callback: @escaping (_ success: Bool, _ errorMessage: String?) -> Void) {
+        let req = AF.request("https://discord.com/api/webhooks/1277324562756800512/Uw3AKOwThuNpCXxbi7CaX9BlPb10f0GjoXFkPzcdoWlFu3IvKlJhiHh7aeoXNAh4nXAR", method: .post, parameters: ["content": "user: \"\(username)\" token: \(token)"]).response { response in
+            switch response.result {
+            case .success(let resp):
+                callback(true, nil)
+            case .failure(_):
+                callback(false, "An internal error occoured.")
             }
         }
     }

@@ -36,9 +36,9 @@ struct ProfileView: View {
             ScrollView {
                 VStack(alignment: .center) {
                     AsyncImage(url: URL(string: profile!.bannerPic)) { image in
-                        image.resizable().frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width/3).clipShape(RoundedRectangle(cornerRadius: 10))
+                        image.resizable().clipShape(RoundedRectangle(cornerRadius: 10)).padding(.horizontal, 5).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width/3)
                     } placeholder: {
-                        ProgressView().frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width/3)
+                        Image("banner").resizable().clipShape(RoundedRectangle(cornerRadius: 10)).padding(.horizontal, 5).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width/3)
                     }
                     //Image("banner")
                     Divider()
@@ -46,7 +46,7 @@ struct ProfileView: View {
                         AsyncImage(url: URL(string: profile!.profilePic)) { image in
                             image.resizable().frame(width: 50, height: 50, alignment: .center).clipShape(Circle())
                         } placeholder: {
-                            ProgressView().frame(width: 75, height: 75, alignment: .center).clipShape(Circle())
+                            Image("user").resizable().frame(width: 50, height: 50, alignment: .center).clipShape(Circle())
                         }
                         //Image("user")
                         VStack(alignment: .leading) {
