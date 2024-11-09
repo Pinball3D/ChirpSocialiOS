@@ -1,7 +1,686 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
 
+    },
+    " " : {
+
+    },
+    " started this conversation on October 19, 2024" : {
+
+    },
+    ", via Chirp for Web" : {
+
+    },
+    "[Home View] route to chirp with id %lld" : {
+
+    },
+    "[Home View] route to image with string %@" : {
+
+    },
+    "[Home View] route to notification with id %@" : {
+
+    },
+    "@%@" : {
+
+    },
+    "@AndrewSmiley20 on X" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@"
+          }
+        }
+      }
+    },
+    "%lld chirps" : {
+
+    },
+    "%lld followers" : {
+
+    },
+    "%lld following" : {
+
+    },
+    "allNotifications" : {
+      "comment" : "title of \"All\" tab in notifs",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "and" : {
+      "comment" : "and (relates to notifs)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "and"
+          }
+        }
+      }
+    },
+    "App Settings" : {
+
+    },
+    "back" : {
+      "comment" : "back button",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        }
+      }
+    },
+    "Buy Me A Coffee" : {
+
+    },
+    "cancel" : {
+      "comment" : "cancel button",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+
+    },
+    "Center" : {
+
+    },
+    "Chirp" : {
+
+    },
+    "Chirp for iOS" : {
+
+    },
+    "chirpAction" : {
+      "comment" : "button that results in a chirp",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chirp"
+          }
+        }
+      }
+    },
+    "clear notifs" : {
+
+    },
+    "Debug" : {
+
+    },
+    "Delete chirp" : {
+
+    },
+    "Developer Options" : {
+
+    },
+    "DISCLAMER" : {
+
+    },
+    "discover" : {
+      "comment" : "The title of the \"Following\" feed on the home tab",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Following"
+          }
+        }
+      }
+    },
+    "Discover" : {
+
+    },
+    "Edit Chirp" : {
+
+    },
+    "editUser" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Profile"
+          }
+        }
+      }
+    },
+    "FLEX" : {
+
+    },
+    "Follow" : {
+
+    },
+    "followedYou" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "followed you"
+          }
+        }
+      }
+    },
+    "following" : {
+      "comment" : "following feed",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Following"
+          }
+        }
+      }
+    },
+    "Following" : {
+
+    },
+    "Follows You" : {
+
+    },
+    "forYou" : {
+      "comment" : "For You feed",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For You"
+          }
+        }
+      }
+    },
+    "highTraffic" : {
+      "comment" : "high traffic message",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We're experiencing very high traffic right now. Chirpie is trying his best, but if Chirp slows down, don't panic!"
+          }
+        }
+      }
+    },
+    "home" : {
+      "comment" : "home tab",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        }
+      }
+    },
+    "Image Playground" : {
+
+    },
+    "Left" : {
+
+    },
+    "like" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "needs_review",
+                  "value" : "%lld like"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld likes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "likeAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Like"
+          }
+        }
+      }
+    },
+    "likedYourPost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "liked your chirp"
+          }
+        }
+      }
+    },
+    "make accent red" : {
+
+    },
+    "Media Not Displayed" : {
+
+    },
+    "mentions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentions"
+          }
+        }
+      }
+    },
+    "messages" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages"
+          }
+        }
+      }
+    },
+    "Messages" : {
+
+    },
+    "My Website" : {
+
+    },
+    "New Chirp from @%@" : {
+
+    },
+    "notifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "Notifications" : {
+
+    },
+    "others" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "others"
+          }
+        }
+      }
+    },
+    "Password" : {
+
+    },
+    "Pick a photo" : {
+
+    },
+    "Pinball3D on Github" : {
+
+    },
+    "placeholderSearch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What are you looking for?"
+          }
+        }
+      }
+    },
+    "Post Buttons Align: " : {
+
+    },
+    "Posted on: " : {
+
+    },
+    "postedOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posted on"
+          }
+        }
+      }
+    },
+    "quotedYourPost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "quoted your chirp"
+          }
+        }
+      }
+    },
+    "rechirp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "needs_review",
+                  "value" : "%lldrechirp"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lldrechirps"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "rechirpAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechirp"
+          }
+        }
+      }
+    },
+    "rechirpedYourPost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rechirped your chirp"
+          }
+        }
+      }
+    },
+    "Remove phpsessid" : {
+
+    },
+    "Remove username" : {
+
+    },
+    "repliedToYourPost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "replied to your chirp"
+          }
+        }
+      }
+    },
+    "reply" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "needs_review",
+                  "value" : "%lldreply"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lldreplies"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Reply" : {
+
+    },
+    "replyAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reply"
+          }
+        }
+      }
+    },
+    "Replying to " : {
+
+    },
+    "replyTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replying to"
+          }
+        }
+      }
+    },
+    "Right" : {
+
+    },
+    "Search" : {
+
+    },
+    "searchAction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
+    },
+    "searchTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
+    },
+    "send notif registration" : {
+
+    },
+    "settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "Sign In" : {
+
+    },
+    "Sign in to view your profile" : {
+
+    },
+    "Sign Out" : {
+
+    },
+    "signin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign In"
+          }
+        }
+      }
+    },
+    "Suggested Accounts" : {
+
+    },
+    "Take a photo" : {
+
+    },
+    "themes" : {
+      "comment" : "title for the themes section in settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        }
+      }
+    },
+    "This account doesn't exist" : {
+
+    },
+    "This App is not developed or sanctioned by Chirp. Report any bugs via my socials." : {
+
+    },
+    "This image cannot be displayed as it either does not exist or has been removed in response to a legal request or a report by the copyright holder." : {
+
+    },
+    "Translate chirp" : {
+
+    },
+    "Trends" : {
+
+    },
+    "trendsForYou" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trends"
+          }
+        }
+      }
+    },
+    "Try searching for something else" : {
+
+    },
+    "Turn off dev mode" : {
+
+    },
+    "turn on new popover" : {
+
+    },
+    "user" : {
+      "comment" : "can also be account",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
+          }
+        }
+      }
+    },
+    "Username" : {
+
+    },
+    "View Original" : {
+
+    },
+    "What are you looking for?" : {
+
+    },
+    "whoToFollow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Who To Follow"
+          }
+        }
+      }
+    },
+    "Write a message..." : {
+
+    },
+    "You" : {
+
+    },
+    "You are not signed in" : {
+
+    },
+    "You can't interact with chirps or post any of your own. You can't follow accounts either. \n\nIf you have an account, you can sign in here:" : {
+
+    },
+    "You're currently using a guest account" : {
+
+    },
+    "youtube.com" : {
+
+    }
   },
   "version" : "1.0"
 }

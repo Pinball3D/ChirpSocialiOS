@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTabView: View {
-    @EnvironmentObject var themeMangaer: ThemeManager
+    //@EnvironmentObject var themeMangaer: ThemeManager
     @Binding var tab: Int
     var tabs: [String]
     var body: some View {
@@ -17,7 +17,7 @@ struct CustomTabView: View {
                 ForEach(self.tabs, id:\.self) { tab in
                     HStack {
                         Spacer()
-                        Text(tab).font(themeMangaer.currentTheme.UIFont.value)
+                        Text(tab)//.font(themeMangaer.currentTheme.UIFont.value)
                         Spacer()
                     }.onTapGesture {
                         self.tab = self.tabs.firstIndex(of: tab) ?? 0

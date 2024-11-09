@@ -8,12 +8,22 @@
 import SwiftUI
 
 struct ProfileTab: View {
+    @EnvironmentObject var accountManager: AccountManager
     var body: some View {
         NavigationStack {
-            if UserDefaults.standard.string(forKey: "username") == nil {
-                Text("You need to be signed in.")
+            if !accountManager.signedIn {
+                VStack {
+                    Spacer()
+                    VStack {
+                        Image(systemName: "person.crop.circle.badge.exclamationmark").resizable().aspectRatio(contentMode: .fit).frame(height: 50).padding()
+                        Text("You are not signed in").font(.custom("Jost", size: 20))
+                        Text("Sign in to view your profile").font(.custom("Jost", size: 17)).foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Spacer()
+                }
             } else {
-                ProfileView(username: UserDefaults.standard.string(forKey: "username")!)
+                ProfileView(username: accountManager.profile!.username, profile: accountManager.profile!)
             }
         }
     }

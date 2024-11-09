@@ -7,14 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4907D44D2C9BAA980064CCF3 /* Drops in Frameworks */ = {isa = PBXBuildFile; productRef = 4907D44C2C9BAA980064CCF3 /* Drops */; };
+		494B2F2C2CD2D3F70073F40F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F2B2CD2D3F70073F40F /* Alamofire */; };
+		494B2F302CD2D3FF0073F40F /* Drops in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F2F2CD2D3FF0073F40F /* Drops */; };
+		494B2F322CD2D4050073F40F /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F312CD2D4050073F40F /* SkeletonUI */; };
+		494B2F342CD2D4680073F40F /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F332CD2D4680073F40F /* SwiftSoup */; };
+		494B2F362CD2D4730073F40F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F352CD2D4730073F40F /* Kingfisher */; };
+		494B2F382CD2D4790073F40F /* Zoomable in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F372CD2D4790073F40F /* Zoomable */; };
+		494B2F3A2CD2D4B70073F40F /* Subsonic in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F392CD2D4B70073F40F /* Subsonic */; };
+		494B2F3C2CD2D54E0073F40F /* WhatsNewKit in Frameworks */ = {isa = PBXBuildFile; productRef = 494B2F3B2CD2D54D0073F40F /* WhatsNewKit */; };
 		497E02512C6D921100497C38 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02502C6D921100497C38 /* Alamofire */; };
 		497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 497E02882C6E5E6F00497C38 /* RichTextKit */; };
 		498EEC672C742F9C0098C357 /* LinkPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 498EEC662C742F9C0098C357 /* LinkPreview */; };
 		498EEC6F2C7A82E70098C357 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 498EEC6E2C7A82E70098C357 /* SwiftSoup */; };
+		49A2C73A2CA215B300339741 /* Zoomable in Frameworks */ = {isa = PBXBuildFile; productRef = 49A2C7392CA215B300339741 /* Zoomable */; };
+		49A800222CC6D22F00299C04 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 49A800212CC6D22F00299C04 /* SwiftSoup */; };
+		49B7437B2CB8930000DE91A0 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 49B7437A2CB8930000DE91A0 /* Kingfisher */; };
+		49B743D32CBB355F00DE91A0 /* Refresher in Frameworks */ = {isa = PBXBuildFile; productRef = 49B743D22CBB355F00DE91A0 /* Refresher */; };
+		49B743DC2CBF744400DE91A0 /* UITextView+Placeholder in Frameworks */ = {isa = PBXBuildFile; productRef = 49B743DB2CBF744400DE91A0 /* UITextView+Placeholder */; };
+		49D15C892C9F2D2F003F7EBE /* NotificationContent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 49D15C822C9F2D2F003F7EBE /* NotificationContent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		49FF85262C9BCABA00CE70EB /* SlidingTabView in Frameworks */ = {isa = PBXBuildFile; productRef = 49FF85252C9BCABA00CE70EB /* SlidingTabView */; };
+		49FF85292C9C4B8900CE70EB /* WhatsNewKit in Frameworks */ = {isa = PBXBuildFile; productRef = 49FF85282C9C4B8900CE70EB /* WhatsNewKit */; };
+		49FF852C2C9C963B00CE70EB /* Subsonic in Frameworks */ = {isa = PBXBuildFile; productRef = 49FF852B2C9C963B00CE70EB /* Subsonic */; };
+		49FF85312C9CED0200CE70EB /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 49FF85302C9CED0200CE70EB /* SkeletonUI */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		49D15C872C9F2D2F003F7EBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 497E02262C6D81B300497C38 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49D15C812C9F2D2F003F7EBE;
+			remoteInfo = NotificationContent;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		49D15C7D2C9F2CDE003F7EBE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				49D15C892C9F2D2F003F7EBE /* NotificationContent.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		494B2ECA2CD2D19B0073F40F /* ChirpMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChirpMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		497E022E2C6D81B300497C38 /* ChirpSocial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChirpSocial.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49D15C6B2C9F2CDD003F7EBE /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		49D15C6D2C9F2CDE003F7EBE /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		49D15C822C9F2D2F003F7EBE /* NotificationContent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationContent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -25,21 +72,71 @@
 			);
 			target = 497E022D2C6D81B300497C38 /* ChirpSocial */;
 		};
+		49A9809D2CA4DC8A000782A4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Types/Chirp.swift,
+				Types/Notification.swift,
+				Types/Profile.swift,
+			);
+			target = 49D15C812C9F2D2F003F7EBE /* NotificationContent */;
+		};
+		49D15C8D2C9F2D2F003F7EBE /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 49D15C812C9F2D2F003F7EBE /* NotificationContent */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		497E02302C6D81B300497C38 /* ChirpSocial */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (497E024A2C6D913A00497C38 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ChirpSocial; sourceTree = "<group>"; };
+		494B2ECB2CD2D19B0073F40F /* ChirpMac */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChirpMac; sourceTree = "<group>"; };
+		497E02302C6D81B300497C38 /* ChirpSocial */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (497E024A2C6D913A00497C38 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 49A9809D2CA4DC8A000782A4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ChirpSocial; sourceTree = "<group>"; };
+		49D15C832C9F2D2F003F7EBE /* NotificationContent */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (49D15C8D2C9F2D2F003F7EBE /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationContent; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		494B2EC72CD2D19B0073F40F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				494B2F3A2CD2D4B70073F40F /* Subsonic in Frameworks */,
+				494B2F302CD2D3FF0073F40F /* Drops in Frameworks */,
+				494B2F342CD2D4680073F40F /* SwiftSoup in Frameworks */,
+				494B2F322CD2D4050073F40F /* SkeletonUI in Frameworks */,
+				494B2F3C2CD2D54E0073F40F /* WhatsNewKit in Frameworks */,
+				494B2F2C2CD2D3F70073F40F /* Alamofire in Frameworks */,
+				494B2F362CD2D4730073F40F /* Kingfisher in Frameworks */,
+				494B2F382CD2D4790073F40F /* Zoomable in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		497E022B2C6D81B300497C38 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				498EEC672C742F9C0098C357 /* LinkPreview in Frameworks */,
+				49FF85312C9CED0200CE70EB /* SkeletonUI in Frameworks */,
+				49B743D32CBB355F00DE91A0 /* Refresher in Frameworks */,
+				49FF85292C9C4B8900CE70EB /* WhatsNewKit in Frameworks */,
 				498EEC6F2C7A82E70098C357 /* SwiftSoup in Frameworks */,
+				49FF85262C9BCABA00CE70EB /* SlidingTabView in Frameworks */,
 				497E02892C6E5E6F00497C38 /* RichTextKit in Frameworks */,
 				497E02512C6D921100497C38 /* Alamofire in Frameworks */,
+				49FF852C2C9C963B00CE70EB /* Subsonic in Frameworks */,
+				49B7437B2CB8930000DE91A0 /* Kingfisher in Frameworks */,
+				49B743DC2CBF744400DE91A0 /* UITextView+Placeholder in Frameworks */,
+				4907D44D2C9BAA980064CCF3 /* Drops in Frameworks */,
+				49A2C73A2CA215B300339741 /* Zoomable in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49D15C7F2C9F2D2F003F7EBE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49A800222CC6D22F00299C04 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +147,9 @@
 			isa = PBXGroup;
 			children = (
 				497E02302C6D81B300497C38 /* ChirpSocial */,
+				49D15C832C9F2D2F003F7EBE /* NotificationContent */,
+				494B2ECB2CD2D19B0073F40F /* ChirpMac */,
+				49D15C6A2C9F2CDD003F7EBE /* Frameworks */,
 				497E022F2C6D81B300497C38 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,13 +158,54 @@
 			isa = PBXGroup;
 			children = (
 				497E022E2C6D81B300497C38 /* ChirpSocial.app */,
+				49D15C822C9F2D2F003F7EBE /* NotificationContent.appex */,
+				494B2ECA2CD2D19B0073F40F /* ChirpMac.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		49D15C6A2C9F2CDD003F7EBE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				49D15C6B2C9F2CDD003F7EBE /* UserNotifications.framework */,
+				49D15C6D2C9F2CDE003F7EBE /* UserNotificationsUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		494B2EC92CD2D19B0073F40F /* ChirpMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 494B2ED62CD2D19E0073F40F /* Build configuration list for PBXNativeTarget "ChirpMac" */;
+			buildPhases = (
+				494B2EC62CD2D19B0073F40F /* Sources */,
+				494B2EC72CD2D19B0073F40F /* Frameworks */,
+				494B2EC82CD2D19B0073F40F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				494B2ECB2CD2D19B0073F40F /* ChirpMac */,
+			);
+			name = ChirpMac;
+			packageProductDependencies = (
+				494B2F2B2CD2D3F70073F40F /* Alamofire */,
+				494B2F2F2CD2D3FF0073F40F /* Drops */,
+				494B2F312CD2D4050073F40F /* SkeletonUI */,
+				494B2F332CD2D4680073F40F /* SwiftSoup */,
+				494B2F352CD2D4730073F40F /* Kingfisher */,
+				494B2F372CD2D4790073F40F /* Zoomable */,
+				494B2F392CD2D4B70073F40F /* Subsonic */,
+				494B2F3B2CD2D54D0073F40F /* WhatsNewKit */,
+			);
+			productName = ChirpMac;
+			productReference = 494B2ECA2CD2D19B0073F40F /* ChirpMac.app */;
+			productType = "com.apple.product-type.application";
+		};
 		497E022D2C6D81B300497C38 /* ChirpSocial */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 497E023C2C6D81B500497C38 /* Build configuration list for PBXNativeTarget "ChirpSocial" */;
@@ -72,11 +213,14 @@
 				497E022A2C6D81B300497C38 /* Sources */,
 				497E022B2C6D81B300497C38 /* Frameworks */,
 				497E022C2C6D81B300497C38 /* Resources */,
+				49D15C7D2C9F2CDE003F7EBE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				49A800202CC6D20500299C04 /* PBXTargetDependency */,
 				497E02552C6D93D400497C38 /* PBXTargetDependency */,
+				49D15C882C9F2D2F003F7EBE /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				497E02302C6D81B300497C38 /* ChirpSocial */,
@@ -87,10 +231,42 @@
 				497E02882C6E5E6F00497C38 /* RichTextKit */,
 				498EEC662C742F9C0098C357 /* LinkPreview */,
 				498EEC6E2C7A82E70098C357 /* SwiftSoup */,
+				4907D44C2C9BAA980064CCF3 /* Drops */,
+				49FF85252C9BCABA00CE70EB /* SlidingTabView */,
+				49FF85282C9C4B8900CE70EB /* WhatsNewKit */,
+				49FF852B2C9C963B00CE70EB /* Subsonic */,
+				49FF85302C9CED0200CE70EB /* SkeletonUI */,
+				49A2C7392CA215B300339741 /* Zoomable */,
+				49B7437A2CB8930000DE91A0 /* Kingfisher */,
+				49B743D22CBB355F00DE91A0 /* Refresher */,
+				49B743DB2CBF744400DE91A0 /* UITextView+Placeholder */,
 			);
 			productName = ChirpSocial;
 			productReference = 497E022E2C6D81B300497C38 /* ChirpSocial.app */;
 			productType = "com.apple.product-type.application";
+		};
+		49D15C812C9F2D2F003F7EBE /* NotificationContent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49D15C8A2C9F2D2F003F7EBE /* Build configuration list for PBXNativeTarget "NotificationContent" */;
+			buildPhases = (
+				49D15C7E2C9F2D2F003F7EBE /* Sources */,
+				49D15C7F2C9F2D2F003F7EBE /* Frameworks */,
+				49D15C802C9F2D2F003F7EBE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				49D15C832C9F2D2F003F7EBE /* NotificationContent */,
+			);
+			name = NotificationContent;
+			packageProductDependencies = (
+				49A800212CC6D22F00299C04 /* SwiftSoup */,
+			);
+			productName = NotificationContent;
+			productReference = 49D15C822C9F2D2F003F7EBE /* NotificationContent.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -102,7 +278,13 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					494B2EC92CD2D19B0073F40F = {
+						CreatedOnToolsVersion = 16.0;
+					};
 					497E022D2C6D81B300497C38 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					49D15C812C9F2D2F003F7EBE = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
@@ -114,6 +296,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 497E02252C6D81B300497C38;
 			packageReferences = (
@@ -121,18 +304,43 @@
 				497E02872C6E5E6F00497C38 /* XCRemoteSwiftPackageReference "RichTextKit" */,
 				498EEC652C742F9C0098C357 /* XCRemoteSwiftPackageReference "LinkPreview" */,
 				498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				4907D44B2C9BAA980064CCF3 /* XCRemoteSwiftPackageReference "Drops" */,
+				49FF85242C9BCABA00CE70EB /* XCRemoteSwiftPackageReference "SlidingTabView" */,
+				49FF85272C9C4B8900CE70EB /* XCRemoteSwiftPackageReference "WhatsNewKit" */,
+				49FF852A2C9C963B00CE70EB /* XCRemoteSwiftPackageReference "Subsonic" */,
+				49FF852F2C9CED0200CE70EB /* XCRemoteSwiftPackageReference "SkeletonUI" */,
+				49A2C7382CA215B300339741 /* XCRemoteSwiftPackageReference "Zoomable" */,
+				49B743792CB8930000DE91A0 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				49B743D12CBB355F00DE91A0 /* XCRemoteSwiftPackageReference "SwiftUI-Refresher" */,
+				49B743DA2CBF744400DE91A0 /* XCRemoteSwiftPackageReference "UITextView-Placeholder" */,
 			);
 			productRefGroup = 497E022F2C6D81B300497C38 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				497E022D2C6D81B300497C38 /* ChirpSocial */,
+				49D15C812C9F2D2F003F7EBE /* NotificationContent */,
+				494B2EC92CD2D19B0073F40F /* ChirpMac */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		494B2EC82CD2D19B0073F40F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		497E022C2C6D81B300497C38 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49D15C802C9F2D2F003F7EBE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -142,7 +350,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		494B2EC62CD2D19B0073F40F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		497E022A2C6D81B300497C38 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49D15C7E2C9F2D2F003F7EBE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -156,14 +378,86 @@
 			isa = PBXTargetDependency;
 			productRef = 497E02542C6D93D400497C38 /* Alamofire */;
 		};
+		49A800202CC6D20500299C04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 49A8001F2CC6D20500299C04 /* SwiftSoup */;
+		};
+		49D15C882C9F2D2F003F7EBE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49D15C812C9F2D2F003F7EBE /* NotificationContent */;
+			targetProxy = 49D15C872C9F2D2F003F7EBE /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		494B2ED72CD2D19E0073F40F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChirpMac/ChirpMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ChirpMac/Preview Content\"";
+				DEVELOPMENT_TEAM = D3FVWNX925;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Chirp;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpiOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		494B2ED82CD2D19E0073F40F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChirpMac/ChirpMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ChirpMac/Preview Content\"";
+				DEVELOPMENT_TEAM = D3FVWNX925;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Chirp;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpiOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		497E023A2C6D81B500497C38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -215,9 +509,11 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				NEW_SETTING = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -227,6 +523,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -272,8 +569,10 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				NEW_SETTING = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -293,10 +592,11 @@
 				INFOPLIST_FILE = ChirpSocial/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Chirp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "If you'd like to upload a photo, we need access to your library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -326,10 +626,11 @@
 				INFOPLIST_FILE = ChirpSocial/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Chirp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "If you'd like to upload a photo, we need access to your library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -344,9 +645,70 @@
 			};
 			name = Release;
 		};
+		49D15C8B2C9F2D2F003F7EBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D3FVWNX925;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationContent;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpiOS.NotificationContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49D15C8C2C9F2D2F003F7EBE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationContent/NotificationContent.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D3FVWNX925;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationContent;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewsmiley.ChirpiOS.NotificationContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		494B2ED62CD2D19E0073F40F /* Build configuration list for PBXNativeTarget "ChirpMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				494B2ED72CD2D19E0073F40F /* Debug */,
+				494B2ED82CD2D19E0073F40F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		497E02292C6D81B300497C38 /* Build configuration list for PBXProject "ChirpSocial" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -365,9 +727,26 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		49D15C8A2C9F2D2F003F7EBE /* Build configuration list for PBXNativeTarget "NotificationContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49D15C8B2C9F2D2F003F7EBE /* Debug */,
+				49D15C8C2C9F2D2F003F7EBE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4907D44B2C9BAA980064CCF3 /* XCRemoteSwiftPackageReference "Drops" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/omaralbeik/Drops.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.0;
+			};
+		};
 		497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -400,9 +779,118 @@
 				minimumVersion = 2.7.5;
 			};
 		};
+		49A2C7382CA215B300339741 /* XCRemoteSwiftPackageReference "Zoomable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ryohey/Zoomable.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		49B743792CB8930000DE91A0 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.3;
+			};
+		};
+		49B743D12CBB355F00DE91A0 /* XCRemoteSwiftPackageReference "SwiftUI-Refresher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gh123man/SwiftUI-Refresher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.9;
+			};
+		};
+		49B743DA2CBF744400DE91A0 /* XCRemoteSwiftPackageReference "UITextView-Placeholder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/UITextView-Placeholder";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+		49FF85242C9BCABA00CE70EB /* XCRemoteSwiftPackageReference "SlidingTabView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/QuynhNguyen/SlidingTabView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		49FF85272C9C4B8900CE70EB /* XCRemoteSwiftPackageReference "WhatsNewKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/WhatsNewKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.1;
+			};
+		};
+		49FF852A2C9C963B00CE70EB /* XCRemoteSwiftPackageReference "Subsonic" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/Subsonic";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+		49FF852F2C9CED0200CE70EB /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CSolanaM/SkeletonUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4907D44C2C9BAA980064CCF3 /* Drops */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4907D44B2C9BAA980064CCF3 /* XCRemoteSwiftPackageReference "Drops" */;
+			productName = Drops;
+		};
+		494B2F2B2CD2D3F70073F40F /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		494B2F2F2CD2D3FF0073F40F /* Drops */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4907D44B2C9BAA980064CCF3 /* XCRemoteSwiftPackageReference "Drops" */;
+			productName = Drops;
+		};
+		494B2F312CD2D4050073F40F /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49FF852F2C9CED0200CE70EB /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
+		};
+		494B2F332CD2D4680073F40F /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		494B2F352CD2D4730073F40F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49B743792CB8930000DE91A0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		494B2F372CD2D4790073F40F /* Zoomable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49A2C7382CA215B300339741 /* XCRemoteSwiftPackageReference "Zoomable" */;
+			productName = Zoomable;
+		};
+		494B2F392CD2D4B70073F40F /* Subsonic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49FF852A2C9C963B00CE70EB /* XCRemoteSwiftPackageReference "Subsonic" */;
+			productName = Subsonic;
+		};
+		494B2F3B2CD2D54D0073F40F /* WhatsNewKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49FF85272C9C4B8900CE70EB /* XCRemoteSwiftPackageReference "WhatsNewKit" */;
+			productName = WhatsNewKit;
+		};
 		497E02502C6D921100497C38 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 497E024F2C6D921100497C38 /* XCRemoteSwiftPackageReference "Alamofire" */;
@@ -427,6 +915,56 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		49A2C7392CA215B300339741 /* Zoomable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49A2C7382CA215B300339741 /* XCRemoteSwiftPackageReference "Zoomable" */;
+			productName = Zoomable;
+		};
+		49A8001F2CC6D20500299C04 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		49A800212CC6D22F00299C04 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 498EEC6D2C7A82E70098C357 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		49B7437A2CB8930000DE91A0 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49B743792CB8930000DE91A0 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		49B743D22CBB355F00DE91A0 /* Refresher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49B743D12CBB355F00DE91A0 /* XCRemoteSwiftPackageReference "SwiftUI-Refresher" */;
+			productName = Refresher;
+		};
+		49B743DB2CBF744400DE91A0 /* UITextView+Placeholder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49B743DA2CBF744400DE91A0 /* XCRemoteSwiftPackageReference "UITextView-Placeholder" */;
+			productName = "UITextView+Placeholder";
+		};
+		49FF85252C9BCABA00CE70EB /* SlidingTabView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49FF85242C9BCABA00CE70EB /* XCRemoteSwiftPackageReference "SlidingTabView" */;
+			productName = SlidingTabView;
+		};
+		49FF85282C9C4B8900CE70EB /* WhatsNewKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49FF85272C9C4B8900CE70EB /* XCRemoteSwiftPackageReference "WhatsNewKit" */;
+			productName = WhatsNewKit;
+		};
+		49FF852B2C9C963B00CE70EB /* Subsonic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49FF852A2C9C963B00CE70EB /* XCRemoteSwiftPackageReference "Subsonic" */;
+			productName = Subsonic;
+		};
+		49FF85302C9CED0200CE70EB /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49FF852F2C9CED0200CE70EB /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

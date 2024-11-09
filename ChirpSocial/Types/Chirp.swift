@@ -4,8 +4,11 @@
 //
 //  Created by Andrew Smiley on 8/14/24.
 //
+import Foundation
 
-struct Chirp: Identifiable, Decodable {
+struct Chirp: Identifiable, Decodable, Encodable, Equatable {
+    static let _default: Chirp = Chirp(id: 0, user: 0, type: "post", chirp: "Lorem Ipsum", parent: nil, timestamp: Int(Date().timeIntervalSince1970), via: nil, username: "lorem", name: "ipsum", profilePic: "https://example.com/favicon.ico", isVerified: false, likeCount: 0, rechirpCount: 0, replyCount: 0, likedByCurrentUser: false, rechirpedByCurrentUser: false)
+    
     let id: Int
     let user: Int
     let type: String
@@ -41,4 +44,15 @@ struct Chirp: Identifiable, Decodable {
         case likedByCurrentUser = "liked_by_current_user"
         case rechirpedByCurrentUser = "rechirped_by_current_user"
     }
+}
+
+
+struct SearchChirp: Identifiable, Decodable, Encodable {
+    let id: Int
+    let user: Int
+    let type: String
+    let chirp: String
+    let parent: Int?
+    let timestamp: Int
+    let via: String?
 }

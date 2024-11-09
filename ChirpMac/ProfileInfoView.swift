@@ -10,7 +10,7 @@ import Kingfisher
 import SkeletonUI
 
 struct ProfileInfoView: View {
-    @EnvironmentObject var themeManager: ThemeManager
+    //@EnvironmentObject var themeManager: ThemeManager
     let chirp: Chirp?
     let user: Profile?
     var profilePic: String {
@@ -28,13 +28,13 @@ struct ProfileInfoView: View {
     var disableHyperlink: Bool = false
     var skeleton: Bool = false
     var inProfile: Bool = false
-    @EnvironmentObject var navigationController: NavigationController
+   // @EnvironmentObject var navigationController: NavigationController
     var body: some View {
         if disableHyperlink {
             content
         } else {
             NavigationLink {
-                ProfileView(username: username, profile: user)
+                //ProfileView(username: username, profile: user)
             } label: {
                 content
             }
@@ -61,7 +61,7 @@ struct ProfileInfoView: View {
                 }
             }
             Spacer()
-        }.font(themeManager.currentTheme.UIFont.value)
+        }//.font(themeManager.currentTheme.UIFont.value)
     }
     var picView: some View {
         VStack {
@@ -69,13 +69,13 @@ struct ProfileInfoView: View {
                 Image("user").resizable().frame(width: 50, height: 50)
             } else {
                 KFImage(URL(string: profilePic)).resizable().clipShape(Circle()).frame(width: 50, height: 50).onTapGesture {
-                    navigationController.imageOverlay = profilePic
+                    //navigationController.imageOverlay = profilePic
                 }
             }
         }
     }
     var nameView: some View {
-        Text(Utility.shared.parseForTwemoji(AttributedString(name)))
+        Text(name) //Utility.shared.parseForTwemoji(AttributedString(name)))
     }
     var usernameView: some View {
         VStack {

@@ -20,6 +20,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     func didReceive(_ notification: UNNotification) {
         self.label?.text = notification.request.content.body
+        
     }
 
 }

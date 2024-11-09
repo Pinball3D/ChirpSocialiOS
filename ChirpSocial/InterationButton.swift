@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Drops
 
 struct InterationButton: View {
+    @EnvironmentObject var accountManager: AccountManager
     @State var currentUserInteracted = false
     var type: InteractionType
     var expanded: Bool = false
@@ -68,6 +70,18 @@ struct InterationButton: View {
             return "reply"
         }
     }
+    var interactedColor: Color {
+        switch type {
+        case .like:
+            return .red
+        case .rechirp:
+            return .green
+        case .reply:
+            return .white
+        }
+    }
+    @EnvironmentObject var navigationController: NavigationController
+    @EnvironmentObject var themeManager: ThemeManager
     var body: some View {
         if type == .reply && !expanded {
             NavigationLink {
@@ -75,32 +89,48 @@ struct InterationButton: View {
             } label: {
                 HStack {
                     Image(image)
-                    Text("\(number)")
+                    Text("\(number)").font(themeManager.currentTheme.UIFont.value).foregroundStyle(.gray)
                 }
-            }.tint(Color.primary)
+            }
         } else {
             Button(action: {
-                ChirpAPI().interact(action: type, chirp: chirp) { success, errorMessage in
-                    if !success {
-                        Utility().errorAlert(errorMessage!)
-                        currentUserInteracted = false
+                if type == .reply {
+                    if accountManager.signedIn {
+                        navigationController.replyComposeView = true
+                    } else {
+                        let drop = Drop(stringLiteral: "Sign in to reply to posts")
+                        Drops.show(drop)
+                    }
+                    
+                } else {
+                    if accountManager.signedIn {
+                        currentUserInteracted.toggle()
+                        ChirpAPI().interact(action: type, chirp: chirp) { success, errorMessage in
+                            if !success {
+                                let drop = Drop(stringLiteral: "Sign in to interact with posts")
+                                Drops.show(drop)
+                                currentUserInteracted = false
+                            }
+                        }
+                    } else {
+                        let drop = Drop(stringLiteral: "Sign in to interact with posts")
+                        Drops.show(drop)
                     }
                 }
-                currentUserInteracted.toggle()
             }) {
                 if expanded {
                     VStack {
                         Image(image)
-                        Text("\(number) \(term)")
+                        Text("\(number) \(term)").font(themeManager.currentTheme.UIFont.value).foregroundColor(interacted ? interactedColor : .secondary)
                     }
                 } else {
                     HStack {
                         Image(image)
-                        Text("\(number)")
+                        Text("\(number)").font(themeManager.currentTheme.UIFont.value).foregroundColor(interacted ? interactedColor : .secondary)
                     }
                 }
                 
-            }.tint(Color.primary)
+            }
         }
     }
 }
@@ -128,16 +158,44 @@ enum InteractionType: String {
 }
 
 struct InteractionBar: View {
+    @EnvironmentObject var navigationController: NavigationController
     @State var expanded: Bool = false
     @State var chirp: Chirp
-    
+    @AppStorage("DEVMODE") var devMode: Bool = false
     var body: some View {
         HStack {
+            if navigationController.intButtonType == 2 {
+                if devMode {
+                    NavigationLink {
+                        DebugView(structToInspect: chirp)
+                    } label: {
+                        Image(systemName: "ellipsis")
+                    }.tint(Color.primary)
+                }
+                Spacer()
+            }
             InterationButton(type: .reply, expanded: expanded, chirp: chirp)
-            Spacer()
+            if navigationController.intButtonType == 1 {
+                Spacer()
+            }
             InterationButton(type: .rechirp, expanded: expanded, chirp: chirp)
-            Spacer()
+            if navigationController.intButtonType == 1 {
+                Spacer()
+            }
             InterationButton(type: .like, expanded: expanded, chirp: chirp)
+            if navigationController.intButtonType == 0 {
+                Spacer()
+            }
+            if navigationController.intButtonType == 1 {
+                if devMode {
+                    Spacer()
+                    NavigationLink {
+                        DebugView(structToInspect: chirp)
+                    } label: {
+                        Image(systemName: "ellipsis")
+                    }.tint(Color.primary)
+                }
+            }
         }
     }
 }

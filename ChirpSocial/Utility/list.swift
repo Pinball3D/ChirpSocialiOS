@@ -1,3 +1,13 @@
+//
+//  list.swift
+//  ChirpSocial
+//
+//  Created by Andrew Smiley on 9/21/24.
+//
+
+import SwiftUI
+
+
 struct list: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     func body(content: Content) -> some View {

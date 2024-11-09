@@ -2,10 +2,55 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string></string>
+			</array>
+			<key>CFBundleIconName</key>
+			<string></string>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+		<key>UINewsstandIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string></string>
+			</array>
+			<key>UINewsstandBindingEdge</key>
+			<string>UINewsstandBindingEdgeLeft</string>
+			<key>UINewsstandBindingType</key>
+			<string>UINewsstandBindingTypeMagazine</string>
+		</dict>
+	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>com.andrewsmiley.ChirpiOS</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>chirp</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>mojangles.ttf</string>
+		<string>wingding.ttf</string>
 		<string>jost.ttf</string>
 		<string>Satoshi.ttf</string>
+		<string>Twemoji.ttf</string>
+		<string>Comic Sans MS.ttf</string>
+		<string>arialnarrow.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>

@@ -7,46 +7,47 @@
 
 import SwiftUI
 import UserNotifications
+import Drops
+import Kingfisher
+//import FLEX
 
 struct SettingsView: View {
-    var chirpAPI = ChirpAPI()
+    @State var intBarType = 0
+    @EnvironmentObject var accountManager: AccountManager
+    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var navigationController: NavigationController
+    @AppStorage("ver1.8") var isNew = false
+    //var chirpAPI = ChirpAPI()
     @State var username = ""
     @State var password = ""
     @State var tab: Int = 0
-    @State var isSignedIn: Bool = (UserDefaults.standard.string(forKey: "PHPSESSID") != "")
+    //@State var isSignedIn: Bool = (UserDefaults.standard.string(forKey: "PHPSESSID") != "")
     @State var isProccessing: Bool = false
-    @State var showAlert = false
-    @State var alertMessage: String = ""
     @State var signInOut: Bool = false
-    @State var profile: Profile? = nil
+    //@State var profile: Profile? = Utility().getUser()
+    @AppStorage("DEVMODE") var devMode: Bool = false
+    @State var clicks = 0
+    //@State var accentColor = UserDefaults.standard.string(forKey: "accentColor") ?? "green"
     var body: some View {
         List {
             Section {
                 HStack {
-                    if profile == nil {
-                        Image("user").resizable().frame(width: 75, height: 75).clipShape(Circle())
+                    if !accountManager.signedIn {
+                        Image("user").resizable().frame(width: 50, height: 50).clipShape(Circle())
                     } else {
-                        AsyncImage(url: URL(string: profile!.profilePic)) { image in
-                            image.resizable().frame(width: 50, height: 50).clipShape(Circle())
-                        } placeholder: {
-                            ProgressView()
-                        }
-
+                        KFImage(URL(string: accountManager.profile!.profilePic)).resizable().frame(width: 50, height: 50).clipShape(Circle())
                     }
                     VStack(alignment: .leading) {
-                        Text((profile == nil) ? "Account" : "@"+profile!.username).font(.title2).bold()
+                        Text(!accountManager.signedIn ? "Account" : "@"+accountManager.profile!.username).font(.title2).bold()
                         //replace with button
                         Button {
-                            if isSignedIn {
-                                UserDefaults.standard.set("", forKey: "PHPSESSID")
-                                UserDefaults.standard.set(nil, forKey: "username")
-                                profile = nil
-                                isSignedIn = false
+                            if accountManager.signedIn {
+                                accountManager.signOut()
                             } else {
-                                signInOut.toggle()
+                                signInOut = true
                             }
                         } label: {
-                            if isSignedIn {
+                            if accountManager.signedIn {
                                 Text("Sign Out")
                             } else {
                                 Text("Sign In")
@@ -56,89 +57,112 @@ struct SettingsView: View {
                     }
                 }
             }
+            Section(header: Text("App Settings")) {
+                NavigationLink {
+                    ThemesView()
+                } label: {
+                    HStack {
+                        Text(String(localized: "themes"))
+                        Spacer()
+                        Text(themeManager.currentTheme.name).foregroundStyle(.secondary)
+                    }
+                }
+                Picker(selection: $navigationController.intButtonType) {
+                    Text("Left").tag(0)
+                    Text("Center").tag(1)
+                    Text("Right").tag(2)
+                } label: {
+                    Text("Post Buttons Align: ")
+                }
+
+
+            }
             Section {
-                Text(UserDefaults.standard.string(forKey: "APNStoken") ?? "notifs not enabled")
-                .contextMenu {
-                    Button(action: {
-                        UIPasteboard.general.string = UserDefaults.standard.string(forKey: "APNStoken") ?? "notifs not enabled"
-                    }) {
-                        Label("Copy", systemImage: "doc.on.doc")
+                Link(destination: URL(string: "https://chirp.smileyzone.net")!) {
+                    Text("Chirp for iOS")
+                }
+            }
+            Section {
+                Link(destination: URL(string: "https://buymeacoffee.com/smileyzone")!) {
+                    Text("Buy Me A Coffee")
+                }
+                Link(destination: URL(string: "https://x.com/AndrewSmiley20")!) {
+                    Text("@AndrewSmiley20 on X")
+                }
+                Link(destination: URL(string: "https://github.com/Pinball3D")!) {
+                    Text("Pinball3D on Github")
+                }
+                Link(destination: URL(string: "https://smileyzone.net")!) {
+                    Text("My Website")
+                }
+            }
+            Section(header: Text("DISCLAMER")) {
+                Text("This App is not developed or sanctioned by Chirp. Report any bugs via my socials.").onTapGesture(count: 1) {
+                    if !devMode {
+                        clicks += 1
+                        if clicks == 10 {
+                            clicks = 0
+                            devMode = true
+                            let drop = Drop(stringLiteral: "Developer options enabled")
+                            Drops.hideAll()
+                            Drops.show(drop)
+                        } else if clicks > 6 {
+                            let drop = Drop(stringLiteral: String(10-clicks)+" taps left.")
+                            Drops.hideAll()
+                            Drops.show(drop)
+                        }
+                    } else {
+                        let drop = Drop(stringLiteral: "Developer options already enabled")
+                        Drops.show(drop)
                     }
                 }
             }
-            Section {
-                Text("Still nothing to see here...")
-            }
-            Section {
-                Text("Follow Me!")
-                Text("Twitter https://x.com/AndrewSmiley20")
-                Text("Github https://github.com/Pinball3D")
-                Text("Website https://smileyzone.net")
-            }
-            Section {
-                Text("THIS IS AN UNOFFICIAL CHIRP CLIENT. CHIRP IS NOT A PART OF THIS APP. ANY ISSUE SHOULD BE REPORTED TO andrew@smileyzone.net NOT CHIRP")
-            }
-            Section(header: Text("section_header_developer")) {
-                Button("dev_remove_phpsessid") {
-                    UserDefaults.standard.set(nil, forKey: "PHPSESSID")
-                }
-                Button("dev_remove_username") {
-                    UserDefaults.standard.set(nil, forKey: "username")
-                }
-            }
-        }.popover(isPresented: $signInOut) {
-            VStack {
-                VStack {
-                    Text("You're currently using a guest account").font(.headline).multilineTextAlignment(.center)
-                    Text("You can't interact with chirps or post any of your own. You can't follow accounts either. \n\nIf you have an account, you can sign in here:").font(.subheadline).multilineTextAlignment(.center)
-                    TextField("Username", text: $username)
-                        .padding(.top)
-                        .textFieldStyle(.roundedBorder)
-                        .textInputAutocapitalization(.never)
-                    SecureField("Password", text: $password)
-                        .padding(.bottom)
-                        .textFieldStyle(.roundedBorder)
-                    Button(action: {
-                        isProccessing = true
-                        chirpAPI.signIn(username: username, password: password) { success, message, profile in
-                            if (success) {
-                                isProccessing = false
-                                self.username = ""
-                                self.password = ""
-                                self.isSignedIn = true
-                                self.profile = profile
-                                UserDefaults.standard.set(profile?.username, forKey: "username")
-                                signInOut.toggle()
-                            } else {
-                                alertMessage = message!
-                                showAlert = true
-                                isProccessing = false
-                                self.isSignedIn = false
-                            }
+            if devMode {
+                Section(header: Text("Developer Options")) {
+                    Button {
+                        navigationController.accentColor = "blue"
+                    } label: {
+                        Text("make accent red")
+                    }
+
+                    Button("Remove phpsessid") {
+                        UserDefaults.standard.set(nil, forKey: "PHPSESSID")
+                    }
+                    Button("Remove username") {
+                        UserDefaults.standard.set(nil, forKey: "username")
+                    }
+                    Button("Turn off dev mode") {
+                        devMode = false
+                    }
+                    Button("turn on new popover") {
+                        isNew = true
+                    }
+                    Button("send notif registration") {
+                        ChirpAPI().sendAPNSTokenToDiscord(token: "test", username: "someone", callback: { _,_  in })
+                    }
+                    Button(UserDefaults.standard.string(forKey: "APNStoken") ?? "notifs not enabled") {
+                        UIPasteboard.general.string = UserDefaults.standard.string(forKey: "APNStoken")
+                    }
+                    Button("FLEX") {
+                        Drops.show("dont work no more")
+                        //FLEXManager.shared.toggleExplorer()
+                    }
+                    Button("clear notifs") {
+                        let cleared: [ChirpNotification] = []
+                        let encoder = JSONEncoder()
+                        do {
+                            UserDefaults(suiteName: "group.chirp")!.set(try encoder.encode(cleared), forKey: "notifications")
+                        } catch {
+                            
                         }
-                    }) {
-                        Text("Sign In")
-                    }.disabled(isProccessing)
+                    }
+                    Text(Utility.shared.parseForTwemoji("😴😴❤️😒😂"))
                 }
             }
-            .padding()
-            .alert("Error", isPresented: $showAlert) {
-                Button {
-                    showAlert = false
-                } label: {
-                    Text("ok")
-                }
-            } message: {
-                Text(alertMessage)
-            }
-            Spacer()
-        }.onAppear() {
-            if UserDefaults.standard.string(forKey: "username") != nil {
-                chirpAPI.getProfile(username: UserDefaults.standard.string(forKey: "username")!) { success, errorMessage, profile in
-                    self.profile = profile
-                    print(profile?.username)
-                }
-            }
+        }
+        .font(themeManager.currentTheme.UIFont.value)
+        .popover(isPresented: $signInOut) {
+            SignInView(signInOut: $signInOut)
         }
     }
 }

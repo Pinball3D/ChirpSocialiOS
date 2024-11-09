@@ -6,17 +6,40 @@
 //
 
 import SwiftUI
+import WhatsNewKit
+import Drops
 
 @main
 struct ChirpSocialApp: App {
+    @StateObject private var accountManager = AccountManager()
+    @StateObject private var navigationController = NavigationController()
+    @StateObject private var themeManager = ThemeManager()
     @UIApplicationDelegateAdaptor(AppDelegate.self)
     var appDelegate
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .accentColor(Color(themeManager.currentTheme.color))
+            .onAppear() {
+                WhatsNew.Layout.default.featureListSpacing = 55
+                WhatsNew.Layout.default.contentPadding = .init(top: 80, leading: 0, bottom:  0, trailing: 0)
+                let appearance = UINavigationBarAppearance()
+                let attributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont(name: "Jost", size: 17)!
+                ]
+                appearance.backButtonAppearance.normal.titleTextAttributes = attributes
+                appearance.backButtonAppearance.highlighted.titleTextAttributes = attributes
+                appearance.backgroundColor = .clear
+                UINavigationBar.appearance().standardAppearance = appearance
+                UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            }
+            .environmentObject(navigationController)
+            .environmentObject(themeManager)
+            .environmentObject(accountManager)
         }
     }
 }
+
 
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -43,24 +66,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("Device Token: \(token)")
         UserDefaults.standard.set(token, forKey: "APNStoken")
         print("hmmm")
-        if ChirpAPI().getSessionToken() != "" {
-            print("there is a session ID")
-            if UserDefaults.standard.string(forKey: "username") == nil {
-                ChirpAPI().sendAPNSTokenToDiscord(token: token, username: "No username, prompting user now....") { success, errorMessage in
-                    print("maybe")
-                }
-                UserDefaults.standard.set(true, forKey: "needUsername")
-            } else {
-                ChirpAPI().sendAPNSTokenToDiscord(token: token, username: UserDefaults.standard.string(forKey: "username")!) { success, errorMessage in
-                    print("maybe")
-                }
-            }
-            
-        } else {
-            print("no session ID")
-            ChirpAPI().sendAPNSTokenToDiscord(token: token, username: "LITERALLY AN UNKNOWN USER") { success, errorMessage in
-                print("maybe")
-            }
+        ChirpAPI().sendAPNSTokenToDiscord(token: token, username: UserDefaults.standard.string(forKey: "username")) { success, errorMessage in
+            print("maybe")
         }
         // Send token to server
     }

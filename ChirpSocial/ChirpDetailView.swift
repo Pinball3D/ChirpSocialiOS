@@ -6,85 +6,91 @@
 //
 
 import SwiftUI
-import LinkPreview
-
+import Drops
+import Translation
 struct ChirpDetailView: View {
-    @State var errorMessage = ""
-    @State var loading = true
-    @State var replies: [Chirp] = []
-    @State var reply = ""
+    @State var translatedChirp: String? = nil
     var chirp: Chirp
-    var chirpAPI: ChirpAPI = ChirpAPI()
+    @State var translate = false
+    var chirpTranslated: Chirp {
+        if let newText = translatedChirp {
+            return Chirp(id: chirp.id, user: chirp.user, type: chirp.type, chirp: newText, parent: chirp.parent, timestamp: chirp.timestamp, via: chirp.via, username: chirp.username, name: chirp.name, profilePic: chirp.profilePic, isVerified: chirp.isVerified, likeCount: chirp.likeCount, rechirpCount: chirp.rechirpCount, replyCount: chirp.replyCount, likedByCurrentUser: chirp.likedByCurrentUser, rechirpedByCurrentUser: chirp.rechirpedByCurrentUser)
+        } else {
+            return chirp
+        }
+    }
+    @EnvironmentObject var navigationController: NavigationController
+    @EnvironmentObject var themeManager: ThemeManager
     var body: some View {
-        ScrollView {
-            VStack {
-                NavigationLink {
-                    ProfileView(username: chirp.username)
-                } label: {
+        VStack {
+            Rectangle()
+                .fill(Color.accentColor)
+                .frame(maxWidth: .infinity, maxHeight: 2)
+            
+            ScrollView {
+                VStack(alignment: .leading) {
                     HStack {
-                        AsyncImage(url: URL(string: chirp.profilePic), content: { image in
-                            image.resizable().clipShape(Circle()).frame(width: 50, height: 50)//.padding(-20)
-                        }, placeholder: {
-                            Image("user").resizable().frame(width: 50, height: 50)//.padding(-20)
-                        })
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(chirp.name)
-                                if chirp.isVerified {
-                                    Image("verified").resizable().frame(width: 15, height: 15)
-                                }
-                            }.foregroundStyle(.foreground)
-                            Text("@"+chirp.username)
-                        }
+                        ProfileInfoView(chirp: chirp, user: nil).padding(.horizontal)
                         Spacer()
+                        Menu("", systemImage: "ellipsis") {
+                            Text("Delete chirp")
+                            Text("Edit Chirp")
+                            Divider()
+                            NavigationLink("Debug") {
+                                DebugView(structToInspect: chirp)
+                            }
+                        }.foregroundStyle(.primary)
                     }
+                    ChirpContentView(chirp: chirpTranslated, expanded: true).padding(.vertical, 10).padding(.horizontal)
+                    Divider()
+                    if #available(iOS 18.0, *) {
+                        TranslationButtonView(originalText: chirp.chirp, translatedText: $translatedChirp).padding(.horizontal)
+                    }
+                    Group {
+                        Text("Posted on: ")+Text(formatDate(Date(timeIntervalSince1970: Double(chirp.timestamp))))+Text(", via Chirp for Web")
+                    }.foregroundStyle(.secondary).padding(.horizontal).font(themeManager.currentTheme.UIFont.value)
+                    InteractionBar(expanded: true, chirp: chirp).padding(.vertical, 10).padding(.horizontal)
+                    Divider()
+                    ChirpListView(chirpId: chirp.id, type: .replies)
+                    Spacer().frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                HStack {
-                    Utility().content(chirp.chirp)
-                    Spacer()
-                }.padding(.vertical, 10)
-                Divider()
-                InteractionBar(expanded: true, chirp: chirp).padding(.vertical, 10)
-                HStack {
-                    TextField(text: $reply, prompt: Text("Reply to @"+chirp.username+"...")) {
-                        EmptyView()
-                    }
-                    Button {
-                        chirpAPI.chirp(content: reply, parent: chirp.id)
-                        reply = ""
-                        chirpAPI.get(.replies, offset: 0, chirpId: chirp.id) { response, success, errorMessage in
-                            if success {
-                                replies = response
-                                loading = false
-                            } else { self.errorMessage = errorMessage!; loading = false }
+            }.onAppear() {
+                print("[Chirp Detail View] onAppear")
+                navigationController.currentChirp = chirp
+                navigationController.showReplyButton = true
+            }.onDisappear() {
+                navigationController.currentChirp = nil
+                navigationController.showReplyButton = false
+            }
+            .fullScreenCover(isPresented: $navigationController.replyComposeView) {
+                ComposeView(chirpToReply: chirp)
+            }
+            .overlay {
+                if ChirpAPI.shared.getSessionToken() != "" && false {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button {
+                                navigationController.replyComposeView = true
+                            } label: {
+                                Text("Reply").font(.headline)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .foregroundStyle(.black)
+                            .padding()
+                            .disabled(UserDefaults.standard.string(forKey: "PHPSESSID") == "")
+                            
                         }
-                    } label: {
-                        Text("Reply")//.font(.headline)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .foregroundStyle(.black)
-                    .padding()
-                }
-                Divider()
-                if loading {
-                    ProgressView()
-                } else if errorMessage != "" {
-                    Text(errorMessage).multilineTextAlignment(.center)
-                } else {
-                    ForEach(replies) {reply in
-                        ChirpPreviewView(chirp: reply)
                     }
                 }
-                Spacer().frame(maxWidth: .infinity, maxHeight: .infinity)
-            }.padding(.horizontal)
-        }.onAppear() {
-            chirpAPI.get(.replies, offset: 0, chirpId: chirp.id) { response, success, errorMessage in
-                if success {
-                    replies = response
-                    loading = false
-                } else { self.errorMessage = errorMessage!; loading = false }
             }
         }
+    }
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy, hh:mm a"
+        return formatter.string(from: date)
     }
 }
 
@@ -97,4 +103,36 @@ struct ChirpDetailView: View {
 struct Mention {
     var text: String
     var after: Int
+}
+
+@available(iOS 18.0, *)
+struct TranslationButtonView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    var originalText: String
+    @Binding var translatedText: String?
+    @State var tempTranslation: String? = nil
+    @State private var configuration: TranslationSession.Configuration? = nil
+    var body: some View {
+        VStack {
+            Button(translatedText == nil ? "Translate chirp" : "View Original") {
+                if tempTranslation != nil {
+                    translatedText = tempTranslation
+                    tempTranslation = nil
+                } else if translatedText == nil {
+                    configuration = .init()
+                } else {
+                    tempTranslation = translatedText
+                    translatedText = nil
+                }
+            }.font(themeManager.currentTheme.UIFont.value)
+            .translationTask(configuration) { session in
+                do {
+                    let result = try await session.translate(originalText)
+                    translatedText = result.targetText
+                } catch {
+                    
+                }
+            }
+        }
+    }
 }

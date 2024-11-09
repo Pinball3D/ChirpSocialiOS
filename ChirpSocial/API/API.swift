@@ -9,69 +9,49 @@ import Foundation
 import SwiftSoup
 
 class ChirpAPI {
+    static let shared = ChirpAPI()
     func get(_ type: getType, offset: Int, userId: Int? = nil, chirpId: Int? = nil, callback: @escaping (_ response: [Chirp], _ success: Bool, _ errorMessage: String?) -> Void) {
         let headers: HTTPHeaders = [ "Cookie": "PHPSESSID="+self.getSessionToken(), "Content-Type": "application/json" ]
-        switch type {
-        case .chirps:
-            AF.request("https://beta.chirpsocial.net/fetch_chirps.php?offset=\(offset)", headers: headers).responseDecodable(of: [Chirp].self) { response in
-                switch response.result {
-                case .success(let chirps):
-                    callback(chirps, true, nil)
-                case .failure(let error):
-                    print("Error: \(error)")
-                    callback([], false, "An error occurred. Maybe Chirpie needs to sleep. Try again later.")
+        let fetchType = fetchType(type)
+        let id = (userId != nil ? userId! : (chirpId != nil ? chirpId! : -1))
+        let parentType = fetchParentType(type)
+        let idQuery = id != -1 ? (parentType == "/chirp" ? "&for=\(id)" : "&user=\(id)") : ""
+        print("[CHIRP API] https://beta.chirpsocial.net\(parentType)/fetch_\(fetchType).php?offset=\(offset)\(idQuery)")
+        AF.request("https://beta.chirpsocial.net\(parentType)/fetch_\(fetchType).php?offset=\(offset)\(idQuery)", headers: headers).responseDecodable(of: [Chirp].self) { response in
+            switch response.result {
+            case .success(let chirps):
+                if type == .userReplies {
+                    print("[API] USER REPLIES: \(chirps)")
                 }
+                callback(chirps, true, nil)
+            case .failure(let error):
+                print("Error: \(error)")
+                callback([], false, "An error occurred. Maybe Chirpie needs to sleep. Try again later.")
             }
-        case .replies:
-            if (chirpId == nil) {
-                print("no chirp provided for reply fetch")
-                callback([], false, "An internal error occoured.")
-                return
-            }
-            AF.request("https://beta.chirpsocial.net/chirp/fetch_replies.php?offset=\(offset)&for=\(chirpId!)", headers: headers).responseDecodable(of: [Chirp].self) { response in
-                switch response.result {
-                case .success(let replies):
-                    callback(replies, true, nil)
-                case .failure(let error):
-                    print("Error: \(error)")
-                    callback([], false, "An error occurred. Maybe Chirpie needs to sleep. Try again later.")
-                }
-            }
-        case .userReplies:
-            if (userId == nil) {
-                print("no chirp provided for user reply fetch")
-                callback([], false, "An internal error occoured.")
-                return
-            }
-            AF.request("https://beta.chirpsocial.net/user/fetch_replies.php?offset=0&user=\(userId!)", headers: headers).responseDecodable(of: [Chirp].self) { response in
-                switch response.result {
-                case .success(let replies):
-                    callback(replies, true, nil)
-                case .failure(let error):
-                    print("Error: \(error)")
-                    callback([], false, "An error occurred. Maybe Chirpie needs to sleep. Try again later.")
-                }
-            }
-        case .userChirps:
-            AF.request("https://beta.chirpsocial.net/user/fetch_chirps.php?offset=0&user=\(userId!)", headers: headers).responseDecodable(of: [Chirp].self) { response in
-                switch response.result {
-                case .success(let chirps):
-                    callback(chirps, true, nil)
-                case .failure(let error):
-                    print("Error: \(error)")
-                    callback([], false, "An error occurred. Maybe Chirpie needs to sleep. Try again later.")
-                }
-            }
-        case .userMedia:
-            print("todo")
-            callback([], false, "This feature is not yet implemented.")
-        
-        case .userLikes:
-            print("todo")
-            callback([], false, "This feature is not yet implemented.")
         }
     }
-    
+    func getPost(_ chirpId: Int, callback: @escaping (_ response: Chirp?, _ success: Bool, _ errorMessage: String?) -> Void) {
+        var chirp = Chirp(id: chirpId, user: 0, type: "post", chirp: "", parent: nil, timestamp: 0, via: nil, username: "", name: "", profilePic: "", isVerified: false, likeCount: 0, rechirpCount: 0, replyCount: 0, likedByCurrentUser: false, rechirpedByCurrentUser: false)
+        let headers: HTTPHeaders = [
+            "Cookie": "PHPSESSID="+self.getSessionToken(),
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        AF.request("https://beta.chirpsocial.net/chirp/?id="+String(chirpId), headers: headers).response { data in
+            switch data.result {
+            case .success(let res):
+                do {
+                    let html = try SwiftSoup.parse(String(data: res!, encoding: .utf8)!)
+                    let chirpDIV = try html.select("#"+String(chirpId)).first!
+                    
+                    callback(chirp, true, nil)
+                } catch {
+                    callback(nil, false, "An internal error occoured.")
+                }
+            case .failure(_):
+                callback(nil, false, "An internal error occoured.")
+            }
+        }
+    }
     func signIn(username: String, password: String, callback: @escaping (_ success: Bool, _ message: String?, _ profile: Profile?) -> Void) {
         let data = NSMutableData(data: ("username=\(username)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!.data(using: .utf8)!)
         data.append(("&pWord=\(password)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!.data(using: .utf8)!)
@@ -105,7 +85,7 @@ class ChirpAPI {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("Error: \(error)")
-                callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
+                callback(false, "An error occoured while logging in.", nil)
                 return
             } else if let data = data {
                 let str = String(data: data, encoding: .utf8)
@@ -117,7 +97,6 @@ class ChirpAPI {
                         let html = try SwiftSoup.parse(String(data: data, encoding: .utf8)!)
                         let settingsWrapper = try html.select("#settingsButtonWrapper")[0]
                         let username = try settingsWrapper.children()[1].children()[1].text().trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "@", with: "")
-                        var done = false
                         let cookies = AF.session.configuration.httpCookieStorage?.cookies(for: URL(string: "https://beta.chirpsocial.net/signin/signin.php")!)
                         cookies?.forEach {
                             if $0.name == "PHPSESSID" {
@@ -127,23 +106,19 @@ class ChirpAPI {
                                     if success {
                                         callback(true, nil, profile)
                                     }
-                                    done = true
                                     return
                                 }
                             }
                         }
-                        if !done {
-                            callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
-                        }
                     } catch {
-                        callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
+                        callback(false, "An error occoured while logging in.", nil)
                     }
                 } else if json?["error"] as! String == "Please fill in both fields." {
                     print("hi2")
                     callback(false, "Please fill in both fields.", nil)
                     return
                 } else {
-                    callback(false, "An error occoured while logging in. Please try again later or check your username and password.", nil)
+                    callback(false, "An error occoured while logging in.", nil)
                     return
                 }
             }
@@ -159,6 +134,28 @@ class ChirpAPI {
         let headers: HTTPHeaders = [ "Cookie": "PHPSESSID="+self.getSessionToken(), "Content-Type": "application/json" ]
         let param = interation(action: action.rawValue, chirpId: chirp.id)
         AF.request("https://beta.chirpsocial.net/interact_chirp.php", method: .post, parameters: param, encoder: .json, headers: headers).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                if let json = value as? [String: Any] {
+                    print(json)
+                    if json["success"] as? Bool == true {
+                        callback(true, nil)
+                    } else {
+                        callback(false, json["error"] as? String)
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+                callback(false, "An error occoured while trying to interact with this post. Try again later.")
+                return
+            }
+            
+        }
+    }
+    func userInteract(action: UserInteractionType, user: Profile, callback: @escaping (_ success: Bool, _ errorMessage: String?) -> Void) {
+        let headers: HTTPHeaders = [ "Cookie": "PHPSESSID="+self.getSessionToken(), "Content-Type": "application/json" ]
+        let param = userInteration(action: action.rawValue, userId: user.id)
+        AF.request("https://beta.chirpsocial.net/interact_user.php", method: .post, parameters: param, encoder: .json, headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
                 if let json = value as? [String: Any] {
@@ -201,24 +198,56 @@ class ChirpAPI {
             }
         }
     }
+    func search(searchTerm: String, callback: @escaping (_ success: Bool, _ errorMessage: String?, _ results: [SearchChirp]) -> Void) {
+        print("SEARCHING FOR: \(searchTerm)")
+        AF.request("https://beta.chirpsocial.net/discover/search.php?query=\(searchTerm)").responseDecodable(of: [SearchChirp].self) { response in
+            switch response.result {
+            case .success(let chirps):
+                callback(true, nil, chirps)
+            case .failure(let error):
+                print("Error: \(error)")
+                callback(false, "An error occurred. Maybe Chirpie needs to sleep. Try again later.", [])
+            }
+        }
+    }
     func getProfile(username: String, callback: @escaping (_ success: Bool, _ errorMessage: String?, _ profile: Profile?) -> Void) {
         var profile = Profile(id: 0, name: "", username: "", bannerPic: "", profilePic: "", followingCount: 0, followersCount: 0, joinedDate: "", bio: "")
-        AF.request("https://beta.chirpsocial.net/user/?id="+username).response { data in
+        let headers: HTTPHeaders = [
+            "Cookie": "PHPSESSID="+self.getSessionToken(),
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        AF.request("https://beta.chirpsocial.net/user/?id="+username, headers: headers).response { data in
             switch data.result {
             case .success(let res):
                 do {
                     let html = try SwiftSoup.parse(String(data: res!, encoding: .utf8)!)
+                    if try html.select(".accountInfo").count == 0 {
+                        callback(false, "User not found", nil)
+                        return
+                    }
+                    if try html.select(".accountInfo").count < 1 {
+                        callback(false, "User not found", nil)
+                        return
+                    }
                     let accInfoDiv = try html.select(".accountInfo")[0]
+                    if try html.select(".account").count < 1 {
+                        callback(false, "User not found", nil)
+                        return
+                    }
                     let acc = try html.select(".account")[0]
                     let accStats = try html.select("#accountStats")[0]
                     profile.profilePic = try accInfoDiv.children()[0].children()[0].attr("src")
                     profile.bannerPic = try html.select(".userBanner")[0].attr("src")
                     profile.name = try accInfoDiv.children()[0].children()[1].children()[0].text().trimmingCharacters(in: .whitespaces)
                     profile.username = try accInfoDiv.children()[0].children()[1].children()[1].text().replacingOccurrences(of: "@", with: "")
+                    
                     profile.bio = try acc.children()[1].text().trimmingCharacters(in: .whitespaces)
                     profile.followingCount = Int(try accStats.children()[0].text().replacingOccurrences(of: " following", with: "")) ?? 0
                     profile.followersCount = Int(try accStats.children()[1].text().replacingOccurrences(of: " followers", with: "")) ?? 0
                     profile.joinedDate = try accStats.children()[2].text().trimmingCharacters(in: .whitespacesAndNewlines)
+                    if accInfoDiv.children()[1].children().count > 1 {
+                        profile.isCurrentUserFollowing = (try accInfoDiv.children()[1].children()[1].attr("style") == "")
+                    }
                     let script = html.body()?.children().last()
                     for line in try script!.html().split(separator: "\r\n") {
                         if line.contains("/user/fetch_chirps.php?offset=") {
@@ -246,6 +275,7 @@ class ChirpAPI {
                         let accInfoDiv = try html.select(".accountInfo")[0]
                         let username = try accInfoDiv.children()[0].children()[1].children()[1].text().replacingOccurrences(of: "@", with: "")
                         callback(true, nil, username)
+                        return
                     }
                     callback(false, "An internal error occoured.", nil)
                 } catch {
@@ -256,14 +286,46 @@ class ChirpAPI {
             }
         }
     }
-    func sendAPNSTokenToDiscord(token: String, username: String, callback: @escaping (_ success: Bool, _ errorMessage: String?) -> Void) {
-        let req = AF.request("https://discord.com/api/webhooks/1277324562756800512/Uw3AKOwThuNpCXxbi7CaX9BlPb10f0GjoXFkPzcdoWlFu3IvKlJhiHh7aeoXNAh4nXAR", method: .post, parameters: ["content": "user: \"\(username)\" token: \(token)"]).response { response in
-            switch response.result {
-            case .success(let resp):
-                callback(true, nil)
-            case .failure(_):
-                callback(false, "An internal error occoured.")
-            }
+    func sendAPNSTokenToDiscord(token: String, username: String?, callback: @escaping (_ success: Bool, _ errorMessage: String?) -> Void) {
+        let parameters = username == nil ? "{\"deviceToken\": \""+token+"\"}" : "{\"deviceToken\": \""+token+"\",\"username\": \""+username!+"\"}"
+        let postData = parameters.data(using: .utf8)
+
+        var request = URLRequest(url: URL(string: "https://chirpnotifs.smileyzone.net/register/")!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpMethod = "POST"
+        request.httpBody = postData
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+            print(String(describing: error))
+            return
+          }
+          print(String(data: data, encoding: .utf8)!)
+        }
+
+        task.resume()
+
+    }
+    func fetchType(_ _for: getType) -> String {
+        switch (_for) {
+            
+        case .chirps: return "chirps"
+        case .replies: return "replies"
+        case .userReplies: return "replies"
+        case .userChirps: return "chirps"
+        case .userMedia: return "media"
+        case .userLikes:return "likes"
+        }
+    }
+    func fetchParentType(_ _for: getType) -> String {
+        switch (_for) {
+        case .chirps: return ""
+        case .replies: return "/chirp"
+        case .userReplies: return "/user/replies"
+        case .userChirps: return "/user"
+        case .userMedia: return "/user/media"
+        case .userLikes:return "/user/likes"
         }
     }
 }
@@ -271,6 +333,10 @@ class ChirpAPI {
 struct interation: Encodable {
     let action: String
     let chirpId: Int
+}
+struct userInteration: Encodable {
+    let action: String
+    let userId: Int
 }
 
 struct InterationResponse {
@@ -292,4 +358,13 @@ enum getType {
     case userChirps
     case userMedia
     case userLikes
+}
+enum UserInteractionType: String {
+    case follow = "follow"
+    case unfolllow = "unfollow"
+}
+
+struct NotifToken: Encodable {
+    let token: String
+    var username: String? = nil
 }

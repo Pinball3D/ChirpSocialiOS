@@ -6,108 +6,88 @@
 //
 
 import SwiftUI
+import Drops
+import Subsonic
+import SkeletonUI
+import Kingfisher
+//import Refresher
 
 struct HomeView: View {
-    @State var tab: Tab = .forYou
+    @EnvironmentObject var accountManager: AccountManager
+    @EnvironmentObject var navigationController: NavigationController
+    @EnvironmentObject var themeManager: ThemeManager
+    @State var tab: Int = 0
     @State var chirps: [Chirp] = []
-    var chirpAPI: ChirpAPI = ChirpAPI()
     @State var compose = false
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navigationController.route) {
             VStack {
                 HStack {
                     Spacer()
-                    Image("Chirpie")
+                    Image(themeManager.currentTheme.icon).resizable().aspectRatio(contentMode: .fit).scaledToFit().frame(height: 36).onTapGesture {
+                        play(sound: "Who Let Birds Out.mp3")
+                    }
                     Spacer()
                 }.overlay {
                     HStack {
                         NavigationLink {
                             SettingsView()
                         } label: {
-                            Image("settings").resizable().frame(width: 25, height: 25)
+                            if !accountManager.signedIn {
+                                Image("user").resizable().frame(width: 35, height: 35).clipShape(Circle())
+                            } else {
+                                KFImage(URL(string: accountManager.profile!.profilePic)).resizable().frame(width: 35, height: 35).clipShape(Circle())
+                                
+                            }
+                            
                         }
                         Spacer()
                     }
                 }
-                Picker("", selection: $tab) {
-                    Text("For You").tag(Tab.forYou)
-                    Text("Following").tag(Tab.following)
-                }.pickerStyle(.segmented)
-                if tab == .forYou {
-                    ScrollView {
-                        VStack {
-                            ForEach(0..<chirps.count, id: \.self) { i in
-                                if i == chirps.count - 3 {
-                                    ChirpPreviewView(chirp: chirps[i])
-                                        .background {
-                                            LazyVStack {
-                                                Color.clear.onAppear {
-                                                    print("loading")
-                                                     chirpAPI.get(.chirps, offset: chirps.count, callback: { chirps, success, error in
-                                                                if success {
-                                                                    self.chirps += chirps
-                                                        }
-                                                    })
-                                                }
-                                            }
-                                        }
-                                } else {
-                                    ChirpPreviewView(chirp: chirps[i])
-                                }
-                            }
-                            if !chirps.isEmpty {
-                                Text("You've Reached the End....").onAppear() {
-                                    chirpAPI.get(.chirps, offset: chirps.count, callback: { chirps, success, error in
-                                        if success {
-                                            self.chirps += chirps
-                                        }
-                                    })
-                                }
-                            }
-                        }
-                    }
-                    .onAppear {
-                        chirpAPI.get(.chirps, offset: 0, callback: { chirps, success, error in
-                            if success {
-                                self.chirps = chirps
-                            }
-                        })
-                    }
-                    .refreshable {
-                        chirpAPI.get(.chirps, offset: 0, callback: { chirps, success, error in
-                            if success {
-                                self.chirps = chirps
-                            }
-                        })
-                    }
-                } else {
-                    Text("If you want to use the Following tab you need to follow people first! 😝").multilineTextAlignment(.center)
+                .padding(.horizontal)
+                CustomTabView(tab: $tab, tabs: [String(localized: "forYou"), String(localized: "following")])//.padding(.horizontal)
+                ZStack {
+                    ChirpListView(type: .forYou).disabled(tab == 1).opacity(tab == 1 ? 0 : 1)
+                    ChirpListView(type: .following).disabled(tab == 0).opacity(tab == 0 ? 0 : 1)
                 }
                 Spacer()
             }
-            .padding(.horizontal)
+            .navigationTitle("Chirp")
+            .navigationBarHidden(true)
             .overlay {
-                if (chirpAPI.getSessionToken() != "") {
+                if accountManager.signedIn {
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
                             Button {
-                                compose = true
+                                navigationController.composeView = true
                             } label: {
-                                Text("Chirp").font(.headline)
+                                Text(String(localized: "Chirp")).font(themeManager.currentTheme.UIFont.value).bold()
                             }
                             .buttonStyle(.borderedProminent)
                             .foregroundStyle(.black)
                             .padding()
                             .disabled(UserDefaults.standard.string(forKey: "PHPSESSID") == "")
-                
+                            
                         }
                     }
-                } else { VStack { EmptyView() } }
+                }
             }
-        }.popover(isPresented: $compose) {
-            ComposeView(popover: $compose)
+            .navigationDestination(for: Route.self, destination: { route in
+                switch route {
+                case .profile(let username):
+                    ProfileView(username: username)
+                case .chirp(let id):
+                    Text("[Home View] route to chirp with id \(id)")
+                case .notification(let id):
+                    Text("[Home View] route to notification with id \(id)")
+                case .image(let string):
+                    Text("[Home View] route to image with string \(string)")
+                }
+            })
+        }.fullScreenCover(isPresented: $navigationController.composeView) {
+            ComposeView()
         }
     }
 }

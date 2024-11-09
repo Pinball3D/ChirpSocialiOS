@@ -11,7 +11,7 @@ import SwiftUI
 struct ChirpMacApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
-        }
+            ContentView().accentColor(.accent)
+        }.windowStyle(.hiddenTitleBar)
     }
 }
