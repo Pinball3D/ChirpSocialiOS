@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Chirp Light-2.png",
+      "filename" : "Light.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Chirp Tinted-4.png",
+      "filename" : "Dark.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "Chirp Tinted-3 1.png",
+      "filename" : "Tinted.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

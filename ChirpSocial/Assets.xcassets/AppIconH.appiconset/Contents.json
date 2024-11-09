@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "AppIcon~ios-marketing.png",
+      "filename" : "Chirp Light-1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,6 +13,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "Chirp Tinted-2.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -24,6 +25,7 @@
           "value" : "tinted"
         }
       ],
+      "filename" : "Chirp Tinted-1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
