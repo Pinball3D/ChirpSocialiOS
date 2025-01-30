@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  ChirpMac
 //
-//  Created by Andrew Smiley on 10/30/24.
+//  Created by Andrew Smiley on 10/30/24, modified by @timi2506 on 01/30/25.
 //
 
 import SwiftUI
@@ -13,117 +13,168 @@ import Alamofire
 struct ContentView: View {
     @StateObject var navigationController = NavigationController()
     @State private var selectedTab: Int? = 0
+    @Binding var needsToRefresh: Bool
+    @State var smallSideBar = false
+
     var body: some View {
-        HStack {
-            VStack(spacing: 0) {
-                HStack {
-                    Image("Chirpie")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 40)
-                        .padding(.top, 20)
-                        .padding(.bottom, 40)
-                    Spacer()
-                }.padding()
-                VStack(spacing: 20) {
-                    NavigationButton(title: "Home", icon: "home", tag: 0)
-                    NavigationButton(title: "Discover", icon: "discover", tag: 1)
-                    NavigationButton(title: "Notifications", icon: "bell", tag: 2)
-                    NavigationButton(title: "Direct Messages", icon: "envelope", tag: 3)
-                    NavigationButton(title: "Profile", icon: "person", tag: 4)
-                }
-                .padding(.horizontal)
-                Text("Chirp")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.accent)
-                    .cornerRadius(24)
+            
+            NavigationView {
+                GeometryReader { geometry in
+
+                VStack(spacing: 0) {
+                    Divider().ignoresSafeArea(.all)
+                    VStack(spacing: 0) {
+                        NavigationButton(title: "Home", icon: "home", tag: 0, smallSideBar: $smallSideBar)
+                        NavigationButton(title: "Discover", icon: "discover", tag: 1, smallSideBar: $smallSideBar)
+                        NavigationButton(title: "Notifications", icon: "bell", tag: 2, smallSideBar: $smallSideBar)
+                        NavigationButton(title: "Direct Messages", icon: "envelope", tag: 3, smallSideBar: $smallSideBar)
+                        NavigationButton(title: "Profile", icon: "person", tag: 4, smallSideBar: $smallSideBar)
+                    }
+                    Text(smallSideBar ? "􀅼" : "Chirp")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 10)
+                                .background(Color.accent)
+                                .cornerRadius(24)
                     .onTapGesture {
                         //do chirp popover
                     }
-                    .padding()
-                Spacer()
-                
-                HStack {
-                    Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                    VStack(alignment: .leading) {
-                        Text("Andrew")
-                            .font(.headline)
-                        Text("@smileyzone")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
+                    .padding(10)
                     Spacer()
-                    Image(systemName: "gear")
-                }
-                .padding()
-            }
-            .frame(width: 250)
-            .background(Color(.black))
-            Divider()
-            VStack {
-                switch navigationController.sideBarTab {
-                case 1:
                     HStack {
-                        Spacer()
-                        Text("Discover View")
-                    }
-                case 2:
-                    HStack {
-                        Spacer()
-                        Text("Notifications View")
-                    }
-                case 3:
-                    HStack {
-                        Spacer()
-                        Text("Direct Messages View")
-                    }
-                case 4:
-                    HStack {
-                        Spacer()
-                        Text("Profile View")
-                    }
-                    //ProfileView()
-                default:
-                    switch navigationController.centerContent {
-                    case .home:
-                        FeedView()
-                    case .chirp(let chirp):
-                        VStack {
-                            HStack {
-                                HStack {
-                                    Image(systemName: "arrow.left")
-                                    Text("Chirp")
-                                }.onTapGesture {
-                                    navigationController.centerContent = .home
-                                }
-                                .foregroundStyle(.primary)
-                                .padding()
-                                Spacer()
+                        Image(systemName: "person.crop.circle.fill")
+                            .resizable()
+                            .frame(width: 32, height: 32)
+                        if !smallSideBar {
+                            VStack(alignment: .leading) {
+                                Text("Andrew")
+                                    .font(.headline)
+                                Text("@smileyzone")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
                             }
-                            Rectangle()
-                                .fill(Color.accentColor)
-                                .frame(maxWidth: .infinity, maxHeight: 2)
-                            ChirpListElementView(chirp: chirp, skeleton: false)
+                            
                             Spacer()
                         }
-                    default:
-                        FeedView()
+                        
                     }
+                    .padding()
                     
                 }
-            }.frame(minWidth: 300)
-            Divider()
-            VStack {
-                Text("trends")
-            }.frame(minWidth: 300)
-        }
-        .background(Color.black)
-        .environmentObject(navigationController)
+                .onAppear {
+                    if geometry.size.width < 166.0 {
+                        smallSideBar = true
+                    }
+                }
+                .onChange(of: geometry.size.width) { newValue in
+                    if geometry.size.width < 166.0 {
+                        smallSideBar = true
+                    }
+                    if geometry.size.width > 166.0 {
+                        smallSideBar = false
+                    }
+                }
+                }
+                .frame(minWidth: 1)
+                .listStyle(.sidebar)
+                .animation(.smooth())
+                
+                HStack {
+                    VStack {
+                        switch navigationController.sideBarTab {
+                        case 1:
+                            HStack {
+                                Spacer()
+                                Text("Discover View")
+                            }
+                        case 2:
+                            HStack {
+                                Spacer()
+                                Text("Notifications View")
+                            }
+                        case 3:
+                            HStack {
+                                Spacer()
+                                Text("Direct Messages View")
+                            }
+                        case 4:
+                            HStack {
+                                Spacer()
+                                Text("Profile View")
+                            }
+                            //ProfileView()
+                        default:
+                            switch navigationController.centerContent {
+                            case .home:
+                                FeedView(needsToRefresh: $needsToRefresh)
+                            case .chirp(let chirp):
+                                VStack {
+                                    HStack {
+                                        HStack {
+                                            Image(systemName: "arrow.left")
+                                            Text("Chirp")
+                                        }.onTapGesture {
+                                            navigationController.centerContent = .home
+                                        }
+                                        .foregroundStyle(.primary)
+                                        .padding()
+                                        Spacer()
+                                    }
+                                    Rectangle()
+                                        .fill(Color.accentColor)
+                                        .frame(maxWidth: .infinity, maxHeight: 2)
+                                    ChirpListElementView(chirp: chirp, skeleton: false)
+                                    Spacer()
+                                }
+                            default:
+                                FeedView(needsToRefresh: $needsToRefresh)
+                            }
+                            
+                        }
+                    }
+                    .padding(.horizontal)
+                    .scrollIndicators(.never)
+                    .frame(minWidth: 250)
+                        .ignoresSafeArea(.all)
+                    VStack {
+                        List {
+                            Section("Trends") {
+                                VStack {
+                                    Group {
+                                        Text("chirp")
+                                        Text("12 chirps")
+                                            .foregroundStyle(.gray)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                VStack {
+                                    Group {
+                                        Text("twitter")
+                                        Text("47 chirps")
+                                            .foregroundStyle(.gray)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                VStack {
+                                    Group {
+                                    Text("iphone 16")
+                                    Text("62 chirps")
+                                        .foregroundStyle(.gray)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                            }
+                        }
+                        .listStyle(SidebarListStyle())
+                    }
+                    .frame(minWidth: 175, maxWidth: 175)
+                }
+            }
+            .background(Color.black)
+            .environmentObject(navigationController)
+            
     }
 }
 
@@ -132,23 +183,55 @@ struct NavigationButton: View {
     let title: String
     let icon: String
     let tag: Int
+    @Binding var smallSideBar: Bool
     
     var body: some View {
-        HStack {
-            HStack {
-                Image(icon)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                Text(title)
-                    .font(.headline)
+        VStack {
+            if navigationController.sideBarTab == tag {
+                HStack {
+                    HStack {
+                        Image(icon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .padding(.horizontal, 10)
+                        if !smallSideBar {
+                            Text(title)
+                                .font(.body)
+                                .foregroundStyle(Color.accent)
+                        }
+                    }
+                    .foregroundColor(navigationController.sideBarTab == tag ? .primary : .secondary)
+                    if !smallSideBar {
+                        Spacer()
+                    }
+                }
+                .padding(.vertical, 10)
+                .background(.gray.opacity(0.25)).contentShape(Rectangle())
+                .cornerRadius(smallSideBar ? 15 : .zero)
+
             }
-            .foregroundColor(navigationController.sideBarTab == tag ? .primary : .secondary)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
-            .background(navigationController.sideBarTab == tag ? Color(Color.accent) : Color.clear)
-            .cornerRadius(24)
-            Spacer()
+            else {
+                HStack {
+                    HStack {
+                        Image(icon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .padding(.horizontal, 10)
+                        if !smallSideBar {
+                            Text(title)
+                                .font(.body)
+                        }
+                    }
+                    .foregroundColor(navigationController.sideBarTab == tag ? .primary : .secondary)
+                    if !smallSideBar {
+                        Spacer()
+                    }
+                }
+                .padding(.vertical, 10)
+                .background(.clear).contentShape(Rectangle())
+            }
         }
         .onTapGesture {
             navigationController.sideBarTab = tag
@@ -156,35 +239,51 @@ struct NavigationButton: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
 
 import SwiftUI
 
 // Your imports remain the same
 
 struct FeedView: View {
-    
+    @Binding var needsToRefresh: Bool
     @State var chirps: [Chirp] = []
     @EnvironmentObject var navigationController: NavigationController
     var body: some View {
         VStack {
-            
+            if chirps.isEmpty {
+                VStack {
+                    ProgressView()
+                    Text("Fetching the latest Chirps just for you...")
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                }
+                .padding()
+            }
+            else {
+
             ScrollView {
-                ForEach(chirps) { chirp in
-                    ChirpListElementView(chirp: chirp, skeleton: false)
+                
+                    ForEach(chirps) { chirp in
+                        ChirpListElementView(chirp: chirp, skeleton: false)
+                    }
                 }
             }
+            
             //.frame(maxWidth: .infinity, maxHeight: .infinity)
             //.listStyle(.plain)
             //.scrollContentBackground(.hidden)
-            .onAppear(perform: loadChirps)
-            Spacer()
         }
+        .onAppear(perform: loadChirps)
+        .onChange(of: needsToRefresh) { newValue in
+            if needsToRefresh {
+                loadChirps()
+            }
+        }
+        
     }
-    
-    private func loadChirps() {
+        
+    func loadChirps() {
+        chirps = []
         let headers: HTTPHeaders = ["Content-Type": "application/json" ]
         AF.request("https://beta.chirpsocial.net/fetch_chirps.php?offset=0", headers: headers).responseDecodable(of: [Chirp].self) { response in
             switch response.result {
@@ -194,6 +293,7 @@ struct FeedView: View {
                 print("Error: \(error)")
             }
         }
+        needsToRefresh = false
     }
 }
 
@@ -240,11 +340,6 @@ struct ChirpRowView: View {
     }
 }
 
-// Preview
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedView()
-    }
-}
+
 
 // End of file. No additional code.

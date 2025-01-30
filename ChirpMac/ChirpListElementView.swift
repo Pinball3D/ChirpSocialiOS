@@ -28,13 +28,16 @@ struct ChirpListElementView: View {
                 } else { Text(timestamp)//.font(themeManager.currentTheme.UIFont.value) }
                 }
             }
+            .padding(.top)
             if skeleton {
                 Text("").skeleton(with: skeleton, lines: 3)
             } else {
                 ChirpContentView(chirp: chirp)
             }
-            Divider()
-            InteractionBar(chirp: chirp).padding(.top, 10).disabled(skeleton)
+            Divider().ignoresSafeArea(.all)
+            InteractionBar(chirp: chirp).padding(.vertical, 2.5).disabled(skeleton)
+            Divider().ignoresSafeArea(.all)
+
         }.onAppear {
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
                 if !skeleton {

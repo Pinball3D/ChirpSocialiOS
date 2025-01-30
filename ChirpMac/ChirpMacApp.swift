@@ -9,9 +9,24 @@ import SwiftUI
 
 @main
 struct ChirpMacApp: App {
+    @State var needsToRefresh = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView().accentColor(.accent)
-        }.windowStyle(.hiddenTitleBar)
+            ContentView(needsToRefresh: $needsToRefresh).accentColor(.accent)
+        }
+        .windowStyle(.hiddenTitleBar)
+        .commands {
+            CommandGroup(before: .sidebar) {
+                Button("Refresh") {
+                    // Refresh
+                    needsToRefresh = true
+                }
+                .keyboardShortcut("R", modifiers: [.command])
+            }
+        }
+        Settings {
+            SettingsView()
+        }
     }
 }

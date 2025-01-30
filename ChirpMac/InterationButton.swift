@@ -174,14 +174,17 @@ struct InteractionBar: View {
              //   Spacer()
             //}
             InterationButton(type: .reply, expanded: expanded, chirp: chirp)
+                .buttonStyle(PlainButtonStyle())
             //if navigationController.intButtonType == 1 {
             //    Spacer()
             //}
             InterationButton(type: .rechirp, expanded: expanded, chirp: chirp)
+                .buttonStyle(PlainButtonStyle())
             //if navigationController.intButtonType == 1 {
             //    Spacer()
             //}
             InterationButton(type: .like, expanded: expanded, chirp: chirp)
+                .buttonStyle(PlainButtonStyle())
             //if navigationController.intButtonType == 0 {
             //    Spacer()
              //   if devMode {
