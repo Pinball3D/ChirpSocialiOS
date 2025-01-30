@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "envelope.svg",
+      "filename" : "Icon @1x 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Home Icon from CloudConvert.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

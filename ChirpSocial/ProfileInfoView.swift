@@ -12,7 +12,7 @@ import SkeletonUI
 struct ProfileInfoView: View {
     @EnvironmentObject var themeManager: ThemeManager
     let chirp: Chirp?
-    let user: Profile?
+    let user: User?
     var profilePic: String {
         if chirp == nil { return user!.profilePic } else { return chirp!.profilePic }
     }
@@ -34,7 +34,7 @@ struct ProfileInfoView: View {
             content
         } else {
             NavigationLink {
-                ProfileView(username: username, profile: user)
+                UserView(username: username, profile: user)
             } label: {
                 content
             }
@@ -48,14 +48,18 @@ struct ProfileInfoView: View {
                 HStack {
                     if skeleton { nameView.skeleton(with: skeleton).frame(width: 100) } else { nameView }
                     if isVerified && !skeleton {
-                        Image("verified").resizable().frame(width: 15, height: 15)
+                        Image("verified").resizable().frame(width: 17, height: 17)
                     }
                 }.foregroundStyle(.foreground)
                 if skeleton { usernameView.skeleton(with: skeleton).frame(width: 75) } else {
                     HStack {
                         usernameView
                         if inProfile {
-                            Text("Follows You")
+                            if user != nil {
+                                if user!.followsCurrentUser {
+                                    Text("Follows You").font(.custom("Jost", size: 14)).padding(.horizontal, 10).background(.gray.opacity(0.4)).clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                            }
                         }
                     }
                 }

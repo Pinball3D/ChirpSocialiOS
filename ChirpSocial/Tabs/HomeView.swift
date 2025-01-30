@@ -21,7 +21,7 @@ struct HomeView: View {
     @State var compose = false
     var body: some View {
         NavigationStack(path: $navigationController.route) {
-            VStack {
+            VStack(spacing: 0) {
                 HStack {
                     Spacer()
                     Image(themeManager.currentTheme.icon).resizable().aspectRatio(contentMode: .fit).scaledToFit().frame(height: 36).onTapGesture {
@@ -45,11 +45,11 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal)
-                CustomTabView(tab: $tab, tabs: [String(localized: "forYou"), String(localized: "following")])//.padding(.horizontal)
+                CustomTabView(tab: $tab, tabs: [String(localized: "forYou"), String(localized: "following")])
                 ZStack {
                     ChirpListView(type: .forYou).disabled(tab == 1).opacity(tab == 1 ? 0 : 1)
                     ChirpListView(type: .following).disabled(tab == 0).opacity(tab == 0 ? 0 : 1)
-                }
+                }.ignoresSafeArea()
                 Spacer()
             }
             .navigationTitle("Chirp")
@@ -63,7 +63,7 @@ struct HomeView: View {
                             Button {
                                 navigationController.composeView = true
                             } label: {
-                                Text(String(localized: "Chirp")).font(themeManager.currentTheme.UIFont.value).bold()
+                                Text(String(localized: "Chirp")).font(themeManager.currentTheme.UIFont.value)
                             }
                             .buttonStyle(.borderedProminent)
                             .foregroundStyle(.black)
@@ -73,22 +73,23 @@ struct HomeView: View {
                         }
                     }
                 }
-            }
-            .navigationDestination(for: Route.self, destination: { route in
+            }.navigationDestination(for: Route.self, destination: { route in
                 switch route {
                 case .profile(let username):
-                    ProfileView(username: username)
+                    UserView(username: username)
                 case .chirp(let id):
                     Text("[Home View] route to chirp with id \(id)")
                 case .notification(let id):
                     Text("[Home View] route to notification with id \(id)")
                 case .image(let string):
                     Text("[Home View] route to image with string \(string)")
+                case .rules:
+                    RulesView()
                 }
             })
         }.fullScreenCover(isPresented: $navigationController.composeView) {
-            ComposeView()
-        }
+            TCompView()
+        }.navigationBarBackButtonHidden(true)
     }
 }
 

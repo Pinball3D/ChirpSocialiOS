@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "search.svg",
+      "filename" : "Icon @1x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Chirp Icon from CloudConvert.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

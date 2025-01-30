@@ -51,11 +51,11 @@ struct DiscoverTab: View {
                     }.modifier(list()).padding(.horizontal)
                     Text("Suggested Accounts").padding(.horizontal).padding(.top).font(themeManager.currentTheme.UIFont.value)
                     VStack(alignment: .leading) {
-                        ProfileInfoView(chirp: nil, user: Profile(id: 0, name: "Apple", username: "apple", bannerPic: "", profilePic: "https://pbs.twimg.com/profile_images/1797665112440045568/305XgPDq_400x400.png", followingCount: 0, followersCount: 0, joinedDate: "", bio: ""))
+                        ProfileInfoView(chirp: nil, user: User(id: 0, name: "Apple", username: "apple", bannerPic: "", profilePic: "https://pbs.twimg.com/profile_images/1797665112440045568/305XgPDq_400x400.png", followingCount: 0, followersCount: 0, joinedDate: "", bio: ""))
                         Divider()
-                        ProfileInfoView(chirp: nil, user: Profile(id: 0, name: "President Biden", username: "POTUS", bannerPic: "", profilePic: "https://pbs.twimg.com/profile_images/1380530524779859970/TfwVAbyX_400x400.jpg", followingCount: 0, followersCount: 0, joinedDate: "", bio: ""))
+                        ProfileInfoView(chirp: nil, user: User(id: 0, name: "President Biden", username: "POTUS", bannerPic: "", profilePic: "https://pbs.twimg.com/profile_images/1380530524779859970/TfwVAbyX_400x400.jpg", followingCount: 0, followersCount: 0, joinedDate: "", bio: ""))
                         Divider()
-                        ProfileInfoView(chirp: nil, user: Profile(id: 0, name: "Chirp", username: "chirp", bannerPic: "", profilePic: "https://pbs.twimg.com/profile_images/1797665112440045568/305XgPDq_400x400.png", followingCount: 0, followersCount: 0, joinedDate: "", bio: ""))
+                        ProfileInfoView(chirp: nil, user: User(id: 0, name: "Chirp", username: "chirp", bannerPic: "", profilePic: "https://pbs.twimg.com/profile_images/1797665112440045568/305XgPDq_400x400.png", followingCount: 0, followersCount: 0, joinedDate: "", bio: ""))
                     }.modifier(list()).padding(.horizontal)
                     
                 } else {

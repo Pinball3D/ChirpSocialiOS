@@ -10,7 +10,7 @@ import Foundation
 class AccountManager: ObservableObject {
     var accountUtil = AccountUtility()
     @Published var signedIn: Bool = false
-    @Published var profile: Profile? = nil
+    @Published var profile: User? = nil
     init() {
         if let user = accountUtil.getUserFromUD() {
             self.signedIn = true
@@ -24,7 +24,7 @@ class AccountManager: ObservableObject {
         self.signedIn = false
         self.profile = nil
     }
-    func signIn(username: String, password: String, callback: ((Bool, String?, Profile?) -> Void)?) {
+    func signIn(username: String, password: String, callback: ((Bool, String?, User?) -> Void)?) {
         //do stuff
         ChirpAPI.shared.signIn(username: username, password: password, callback: { [self] success, message, profile in
             if callback != nil {
@@ -45,16 +45,16 @@ struct AccountUtility {
         UserDefaults.standard.removeObject(forKey: "PHPSESSID")
         UserDefaults.standard.removeObject(forKey: "username")
     }
-    func getUserFromUD() -> Profile? {
+    func getUserFromUD() -> User? {
         if let savedUser = UserDefaults.standard.object(forKey: "user") as? Data {
             let decoder = JSONDecoder()
-            if let loadedUser = try? decoder.decode(Profile.self, from: savedUser) {
+            if let loadedUser = try? decoder.decode(User.self, from: savedUser) {
                 return loadedUser
             }
         }
         return nil
     }
-    func setUser(_ user: Profile) {
+    func setUser(_ user: User) {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(user) {
             let defaults = UserDefaults.standard

@@ -60,7 +60,7 @@ struct ChirpContentView: View {
     var chirp: Chirp
     var soup: Document? {
         do {
-            return try SwiftSoup.parse(chirp.chirp)
+            return try SwiftSoup.parse(chirp.chirp.replacingOccurrences(of: "<br />", with: ".CHIRP.iOS.LINEBREAK.").replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\r", with: ""))
         } catch {
             return nil
         }
@@ -148,28 +148,34 @@ struct ChirpContentView: View {
         }
     }
     var AttributedChirp: Text {
-        var AttributedChirp = Text("")
-        print(text)
+        var AttributedChirp = AttributedString(text.replacingOccurrences(of: ".CHIRP.iOS.LINEBREAK.", with: "\n"))
         for word in text.split(separator: " ") {
-            var added = false
             for mention in mentions {
                 print("[Attr mention: \(mention), word: \(word)]")
                 if word.contains(mention) {
-                    var AttrMention = AttributedString(mention)
-                    AttrMention.foregroundColor = .accentColor
-                    AttrMention.link = URL(string: "chirp://user/"+mention.replacingOccurrences(of: "@", with: ""))
-                    AttributedChirp = AttributedChirp + Text(AttrMention)
-                    added = true
+                    if let range = AttributedChirp.range(of: mention) {
+                        AttributedChirp[range].foregroundColor = .accentColor
+                        AttributedChirp[range].link = URL(string: "chirp://user/"+mention.replacingOccurrences(of: "@", with: ""))
+                    }
                 }
             }
-            if !added {
-                AttributedChirp = AttributedChirp + Text(word)
-            }
-            if word != text.split(separator: " ").last {
-                AttributedChirp = AttributedChirp + Text(" ")
+        }
+        for (index, char) in AttributedChirp.characters.enumerated() {
+            if char.isSimpleEmoji {
+                let startIndex = AttributedChirp.index(AttributedChirp.startIndex, offsetByCharacters: index)
+                let endIndex = AttributedChirp.index(AttributedChirp.startIndex, offsetByCharacters: index+1)
+                print("[TWEMOJI] \(Range(uncheckedBounds: (lower: startIndex, upper: endIndex)))))")
+                AttributedChirp[Range(uncheckedBounds: (lower: startIndex, upper: endIndex))].font = .custom("Twemoji Mozilla", size: 17)
+                //if let range = AttributedChirp.range(of: AttributedChirp[index...index]) {
+                //
+                //}
+                //print("[CHIRP CONTENT VIEW]: \(char) is an emoji!")
+                //print("[CCV] RANGE FOR \(char) is \(range)")
+                //print("CHAR AT RANGE IS \(AttributedChirp[range])")
+                //AttributedChirp[range].font = .custom("Twemoji Mozilla", size: 17)
             }
         }
-        return AttributedChirp
+        return Text(AttributedChirp)
     }
     var expanded = false
     var chirpSeesNote: String? = nil
@@ -200,7 +206,7 @@ struct ChirpContentView: View {
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(.gray, lineWidth: 1)
+                            .stroke(.gray.opacity(0.4), lineWidth: 1)
                     )
             }.frame(maxWidth: .infinity)
             ForEach(links, id: \.self) { link in
@@ -209,7 +215,7 @@ struct ChirpContentView: View {
             ForEach(ytEmbeds) { embed in
                 Link(destination: URL(string: embed.originalURL)!) {
                     HStack {
-                        KFImage(URL(string: embed.photo)).resizable().aspectRatio(contentMode: .fit).scaledToFit().frame(width: 190).clipShape(UnevenRoundedRectangle(topLeadingRadius: 20, bottomLeadingRadius: 20, bottomTrailingRadius: 0, topTrailingRadius: 0))
+                        KFImage(URL(string: embed.photo)).resizable().aspectRatio(contentMode: .fit).scaledToFit().frame(width: 190)//.clipShape(UnevenRoundedRectangle(topLeadingRadius: 20, bottomLeadingRadius: 20, bottomTrailingRadius: 0, topTrailingRadius: 0))
                         VStack(alignment: .leading) {
                             Text("youtube.com").font(.caption).foregroundStyle(.secondary)
                             Text(embed.title).bold().multilineTextAlignment(.leading)
@@ -219,7 +225,7 @@ struct ChirpContentView: View {
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(.gray, lineWidth: 1)
+                            .stroke(.gray.opacity(0.4), lineWidth: 1)
                     )
                     
                 }.tint(.primary)
@@ -240,7 +246,7 @@ struct ChirpContentView: View {
                 .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(.gray, lineWidth: 1)
+                        .stroke(.gray.opacity(0.4), lineWidth: 1)
                 ).frame(maxWidth: .infinity)
             }
         }.onAppear {
@@ -254,6 +260,7 @@ struct ChirpContentView: View {
     
 }
 
+@available(iOS 16.0, *)
 struct LinkEmbed: View {
     @ObservedObject var fetcher = LinkMetadataFetcher()
     var url: URL
@@ -278,7 +285,7 @@ struct LinkEmbed: View {
                 }
             }.overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(.gray, lineWidth: 1)
+                    .stroke(.gray.opacity(0.4), lineWidth: 1)
             )
         }
         .tint(.primary)

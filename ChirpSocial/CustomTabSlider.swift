@@ -20,25 +20,30 @@ struct CustomTabView: View {
                         Text(tab).font(themeMangaer.currentTheme.UIFont.value)
                         Spacer()
                     }.onTapGesture {
-                        self.tab = self.tabs.firstIndex(of: tab) ?? 0
+                        let generator = UISelectionFeedbackGenerator()
+                        generator.selectionChanged()
+                        withAnimation {
+                            self.tab = self.tabs.firstIndex(of: tab) ?? 0
+                        }
+
+                        //withAnimation(animation: .spring()) {
+                        //    self.tab = self.tabs.firstIndex(of: tab) ?? 0
+                        //}
                     }
                     .padding(.vertical, 16)
                     .tint(self.tab == (self.tabs.firstIndex(of: tab) ?? 0) ? .accentColor :  .gray)
                 }
             }
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.accentColor)
-                        .frame(width: geometry.size.width / CGFloat(tabs.count), height: 2, alignment: .leading)
-                        .offset(x: ( geometry.size.width/CGFloat(tabs.count))*CGFloat(self.tab), y: 0)
-                        .animation(.spring())
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: geometry.size.width, height: 1, alignment: .leading)
-                }.fixedSize(horizontal: false, vertical: true)
-            }.fixedSize(horizontal: false, vertical: true)
-            
+            Rectangle()
+                .fill(Color.gray.opacity(0.2))
+                .frame(width: UIScreen.main.bounds.width, height: 1)
+            Rectangle()
+                .fill(Color.accentColor)
+                .frame(width: UIScreen.main.bounds.width/CGFloat(tabs.count), height: 2, alignment: .leading)
+                .offset(x: UIScreen.main.bounds.width/CGFloat(tabs.count)*CGFloat(self.tab), y: -1.5)
+                .background {
+                    Color.clear
+                }
         }
         //SlidingTabView(selection: $tab, tabs: tabs, font: .custom("Jost", size: 17), animation: .default, activeAccentColor: Color.accent, inactiveAccentColor: Color.gray, selectionBarColor: Color.accent, inactiveTabColor: .clear, activeTabColor: .clear)
     }

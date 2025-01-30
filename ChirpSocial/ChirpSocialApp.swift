@@ -23,15 +23,6 @@ struct ChirpSocialApp: App {
             .onAppear() {
                 WhatsNew.Layout.default.featureListSpacing = 55
                 WhatsNew.Layout.default.contentPadding = .init(top: 80, leading: 0, bottom:  0, trailing: 0)
-                let appearance = UINavigationBarAppearance()
-                let attributes: [NSAttributedString.Key: Any] = [
-                    .font: UIFont(name: "Jost", size: 17)!
-                ]
-                appearance.backButtonAppearance.normal.titleTextAttributes = attributes
-                appearance.backButtonAppearance.highlighted.titleTextAttributes = attributes
-                appearance.backgroundColor = .clear
-                UINavigationBar.appearance().standardAppearance = appearance
-                UINavigationBar.appearance().scrollEdgeAppearance = appearance
             }
             .environmentObject(navigationController)
             .environmentObject(themeManager)
@@ -56,7 +47,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        center.setBadgeCount(0)
+        //center.setBadgeCount(0)
         completionHandler([.sound, .badge, .banner])
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

@@ -11,20 +11,25 @@ import Kingfisher
 import PhotosUI
 import Foundation
 import Alamofire
-import ImagePlayground
+//#if canImport(ImagePlayground)
+//import ImagePlayground
+//#endif
 
 struct ComposeView: View {
     @State var imgGen = false
     @State var dividerSize: CGSize = .zero
     var chirpToReply: Chirp? = nil
     var chirpAPI = ChirpAPI()
-    @State var pickerPhoto: [PhotosPickerItem] = []
     @State var postPhotos: [URL] = []
+    @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var navigationController: NavigationController
     @Environment(\.colorScheme) var colorScheme
-    @State private var caption = ""
+    @State var caption = ""
     @Environment(\.presentationMode) var presentationMode
     @State var addMenuExpand = false
+    var charCounter: CGFloat {
+        return CGFloat(caption.count)/500.0
+    }
     var body: some View {
         if true {
             VStack {
@@ -38,7 +43,11 @@ struct ComposeView: View {
                         }
                     } label: {
                         Text("Cancel")
-                            .foregroundColor(Color.accent)
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color("red"))
+                            .foregroundColor(.primary)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                     Spacer()
                     //PhotosPicker(selection: $pickerPhoto, maxSelectionCount: 1, matching: .images) {
@@ -65,58 +74,39 @@ struct ComposeView: View {
                     //    }
                     //}
                     Menu("", systemImage: "photo.badge.plus") {
-                        PhotosPicker(selection: $pickerPhoto, maxSelectionCount: 1, matching: .images) {
-                            Label("Pick a photo", systemImage: "photo")
-                        }
+                        PhotoPickerView(postPhotos: $postPhotos)
                         Button("Take a photo", systemImage: "camera") {
                             
                         }
-                        Button("Image Playground", systemImage: "wand.and.stars.inverse") {
-                            imgGen = true
-                        }
-                    }.onChange(of: pickerPhoto) { _ in
-                        Task {
-                            for photo in pickerPhoto {
-                                if let imageData = try await photo.loadTransferable(type: Data.self),
-                                   let image = UIImage(data: imageData) {
-                                    Utility.shared.fetchToken { token, error in
-                                        if let gitToken = token {
-                                            Utility.shared.uploadImage(token: gitToken, image: image) { url, error in
-                                                if let responseURL = url {
-                                                    postPhotos.append(responseURL)
-                                                }
-                                            }
-                                        } else {
-                                            Drops.show("Couldn't upload image")
-                                        }
-                                    }
-                                }
+                        if #available(iOS 18.2, *) {
+                            Button("Image Playground", systemImage: "wand.and.stars.inverse") {
+                                imgGen = true
                             }
                         }
                     }
-                    if #available(iOS 18.2, *) {
-                        Spacer().frame(width: 0, height: 0).imagePlaygroundSheet(isPresented: $imgGen) { url in
-                            imgGen.toggle()
-                            Utility.shared.fetchToken { token, error in
-                                if let gitToken = token {
-                                    do {
-                                        if let image = UIImage(data: try Data(contentsOf: url)) {
-                                            Utility.shared.uploadImage(token: gitToken, image: image) { url, error in
-                                                if let responseURL = url {
-                                                    postPhotos.append(responseURL)
-                                                }
-                                            }
-                                        }
-                                    } catch {
-                                        Drops.show("Couldn't upload image")
-                                    }
-                                    
-                                } else {
-                                    Drops.show("Couldn't upload image")
-                                }
-                            }
-                        }
-                    }
+                    //if #available(iOS 18.2, *) {
+                    //    Spacer().frame(width: 0, height: 0).imagePlaygroundSheet(isPresented: //$imgGen) { url in
+                    ///        imgGen.toggle()
+                     //       Utility.shared.fetchToken { token, error in
+                     //           if let gitToken = token {
+                     //               do {
+                     //                   if let image = UIImage(data: try Data(contentsOf: url)) {
+                     //                       Utility.shared.uploadImage(token: gitToken, image: //image) { url, error in
+                     //                           if let responseURL = url {
+                     //                               postPhotos.append(responseURL)
+                     //                           }
+                      //                      }
+                      //                  }
+                       //             } catch {
+                      //                  Drops.show("Couldn't upload image")
+                       //             }
+                      //
+                      //          } else {
+                     //               Drops.show("Couldn't upload image")
+                     //           }
+                    //        }
+                    //    }
+                    //}
                     Spacer()
                     Button {
                         for image in postPhotos {
@@ -132,14 +122,13 @@ struct ComposeView: View {
                         }
                     } label: {
                         Text(chirpToReply == nil ? "Chirp" : "Reply")
-                            .bold()
                             .padding(.horizontal)
                             .padding(.vertical, 8)
-                            .background(Color.accent)
-                            .foregroundColor(.white)
-                            .clipShape(Capsule())
+                            .background(Color(themeManager.currentTheme.color))
+                            .foregroundColor(.primary)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
-                }
+                }.font(themeManager.currentTheme.UIFont.value)
                 .padding()
                 if (chirpToReply != nil) {
                     VStack {
@@ -191,11 +180,13 @@ struct ComposeView: View {
                     }.padding()
                 } else {
                     HStack(alignment: .top) {
-                        KFImage(URL(string: Utility().getUser()!.profilePic))
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(Circle())
-                            .frame(width: 40, height: 40)
+                        if let user = Utility.shared.getUser() {
+                            KFImage(URL(string: user.profilePic))
+                                .resizable()
+                                .scaledToFill()
+                                .clipShape(Circle())
+                                .frame(width: 40, height: 40)
+                        }
                         
                         TextArea("What's happening?", text: $caption)
                     }.padding()
@@ -209,6 +200,29 @@ struct ComposeView: View {
                             RoundedRectangle(cornerRadius: 20)
                                 .stroke(.gray, lineWidth: 1)
                         )
+                }
+                Spacer()
+                Divider()
+                HStack {
+                    Spacer()
+                    ZStack {
+                        Circle()
+                            .stroke(
+                                Color.secondary,
+                                lineWidth: 7.5
+                            )
+                        Circle()
+                            .trim(from: 0, to: charCounter)
+                            .stroke(
+                                Color.accentColor,
+                                // 1
+                                style: StrokeStyle(
+                                    lineWidth: 7.5,
+                                    lineCap: .round
+                                )
+                            )
+                            .rotationEffect(.degrees(-90))
+                    }.frame(width: 25, height: 25).padding()
                 }
             }
             .background(colorScheme == .dark ? Color.black : Color.white)
@@ -224,7 +238,7 @@ struct ComposeView: View {
     //    }
     //    let tempDirectory = FileManager.default.temporaryDirectory
     //    let jpegFileName = UUID().uuidString + ".jpg"
-        //let jpegFileURL = tempDirectory.appendingPathComponent(jpegFileName)
+    //let jpegFileURL = tempDirectory.appendingPathComponent(jpegFileName)
     //    do {
     //        try jpegData.write(to: jpegFileURL)
     //        print("JPEG image successfully saved at: \(jpegFileURL)")
@@ -303,7 +317,7 @@ struct TextArea: View {
                 .disableAutocorrection(true)
                 .focused($focused)
                 .background(Color.clear)
-                .scrollContentBackground(.hidden)
+                //.scrollContentBackground(.hidden)
         }
         .font(.body)
         .onAppear {
@@ -344,6 +358,34 @@ struct TwitterToolbarView: View {
     ComposeView()
 }
 
-#if os(macOS)
 
-#endif
+@available(iOS 16.0, *)
+struct PhotoPickerView: View {
+    @Binding var postPhotos: [URL]
+    @State var pickerPhoto: [PhotosPickerItem] = []
+    var body: some View {
+        PhotosPicker(selection: $pickerPhoto, maxSelectionCount: 1, matching: .images) {
+            Label("Pick a photo", systemImage: "photo")
+        }
+        .onChange(of: pickerPhoto) { _ in
+            Task {
+                for photo in pickerPhoto {
+                    if let imageData = try await photo.loadTransferable(type: Data.self),
+                       let image = UIImage(data: imageData) {
+                        Utility.shared.fetchToken { token, error in
+                            if let gitToken = token {
+                                Utility.shared.uploadImage(token: gitToken, image: image) { url, error in
+                                    if let responseURL = url {
+                                        postPhotos.append(responseURL)
+                                    }
+                                }
+                            } else {
+                                Drops.show("Couldn't upload image")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

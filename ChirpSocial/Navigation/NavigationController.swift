@@ -37,5 +37,6 @@ enum Route: Hashable {
     case chirp(Int)
     case notification(String)
     case image(String) // async image
+    case rules
 }
 

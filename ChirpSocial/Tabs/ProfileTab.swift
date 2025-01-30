@@ -23,7 +23,7 @@ struct ProfileTab: View {
                     Spacer()
                 }
             } else {
-                ProfileView(username: accountManager.profile!.username, profile: accountManager.profile!)
+                UserView(username: accountManager.profile!.username, profile: accountManager.profile!, inProfileTab: true)
             }
         }
     }

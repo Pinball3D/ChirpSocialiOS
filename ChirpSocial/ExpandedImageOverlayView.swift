@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Zoomable
+//import Zoomable
 import Kingfisher
 
 struct ExpandedImageOverlayView: View {
@@ -15,7 +15,7 @@ struct ExpandedImageOverlayView: View {
     var body: some View {
         ZStack {
             Color.black.opacity(0.7)
-            KFImage(URL(string: image)).resizable().scaledToFit().zoomable().padding()
+            KFImage(URL(string: image)).resizable().scaledToFit()//.zoomable().padding()
             VStack {
                 HStack {
                     Spacer()

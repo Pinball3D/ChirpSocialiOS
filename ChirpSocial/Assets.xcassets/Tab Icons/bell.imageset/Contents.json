@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "person.svg",
+      "filename" : "Icon @1x 3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Chirp Discover Bell from CloudConvert.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

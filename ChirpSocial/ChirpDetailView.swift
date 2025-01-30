@@ -21,14 +21,27 @@ struct ChirpDetailView: View {
     }
     @EnvironmentObject var navigationController: NavigationController
     @EnvironmentObject var themeManager: ThemeManager
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            HStack {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "arrow.left")
+                        Text("Chirp").font(.Jost)
+                    }
+                }.foregroundStyle(.primary)
+                .padding()
+                Spacer()
+            }
             Rectangle()
                 .fill(Color.accentColor)
                 .frame(maxWidth: .infinity, maxHeight: 2)
-            
             ScrollView {
                 VStack(alignment: .leading) {
+                    Spacer().frame(height: 15)
                     HStack {
                         ProfileInfoView(chirp: chirp, user: nil).padding(.horizontal)
                         Spacer()
@@ -63,7 +76,8 @@ struct ChirpDetailView: View {
                 navigationController.showReplyButton = false
             }
             .fullScreenCover(isPresented: $navigationController.replyComposeView) {
-                ComposeView(chirpToReply: chirp)
+                TCompView(replyingTo: chirp)
+                //ComposeView(chirpToReply: chirp)
             }
             .overlay {
                 if ChirpAPI.shared.getSessionToken() != "" && false {
@@ -95,7 +109,7 @@ struct ChirpDetailView: View {
 }
 
 #Preview {
-    NavigationStack {
+    NavigationView {
         ChirpDetailView(chirp: Chirp(id: 5326, user: 166, type: "post", chirp: "This is a test @chirp https://pbs.twimg.com/media/GVWrpjAWAAAQu1G?format=jpg&amp;name=medium look at this cool git link https://github.com/NuPlay/LinkPreview", parent: nil, timestamp: 1723679455, via: nil, username: "chirp", name: "Chirp", profilePic: "https://pbs.twimg.com/profile_images/1798508305687441408/5gv4drcK_400x400.jpg", isVerified: false, likeCount: 7, rechirpCount: 8, replyCount: 9, likedByCurrentUser: false, rechirpedByCurrentUser: false))
     }
 }

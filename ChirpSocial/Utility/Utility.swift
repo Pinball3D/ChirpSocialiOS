@@ -22,16 +22,16 @@ class Utility {
         UserDefaults.standard.removeObject(forKey: "PHPSESSID")
         UserDefaults.standard.removeObject(forKey: "username")
     }
-    func getUser() -> Profile? {
+    func getUser() -> User? {
         if let savedUser = UserDefaults.standard.object(forKey: "user") as? Data {
             let decoder = JSONDecoder()
-            if let loadedUser = try? decoder.decode(Profile.self, from: savedUser) {
+            if let loadedUser = try? decoder.decode(User.self, from: savedUser) {
                 return loadedUser
             }
         }
         return nil
     }
-    func setUser(_ user: Profile) {
+    func setUser(_ user: User) {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(user) {
             let defaults = UserDefaults.standard
@@ -172,8 +172,21 @@ class Utility {
         }
     }
     func parseForTwemoji(_ text: AttributedString) -> AttributedString {
-        let AttributedText = text
-        //do stuff
+        var AttributedText = text
+        for (index, char) in AttributedText.characters.enumerated() {
+            if char.isSimpleEmoji {
+                let startIndex = AttributedText.index(AttributedText.startIndex, offsetByCharacters: index)
+                let endIndex = AttributedText.index(AttributedText.startIndex, offsetByCharacters: index+1)
+                AttributedText[Range(uncheckedBounds: (lower: startIndex, upper: endIndex))].font = .custom("Twemoji Mozilla", size: 17)
+                //if let range = AttributedChirp.range(of: AttributedChirp[index...index]) {
+                //
+                //}
+                //print("[CHIRP CONTENT VIEW]: \(char) is an emoji!")
+                //print("[CCV] RANGE FOR \(char) is \(range)")
+                //print("CHAR AT RANGE IS \(AttributedChirp[range])")
+                //AttributedChirp[range].font = .custom("Twemoji Mozilla", size: 17)
+            }
+        }
         return AttributedText
     }
     func uploadImage(token: String, image: UIImage, completion: @escaping (URL?, String?) -> Void) {

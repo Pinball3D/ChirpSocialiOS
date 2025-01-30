@@ -26,8 +26,8 @@ struct ContentView: View {
                     Spacer()
                 }.padding()
                 VStack(spacing: 20) {
-                    NavigationButton(title: "Home", icon: "house", tag: 0)
-                    NavigationButton(title: "Discover", icon: "magnifyingglass", tag: 1)
+                    NavigationButton(title: "Home", icon: "home", tag: 0)
+                    NavigationButton(title: "Discover", icon: "discover", tag: 1)
                     NavigationButton(title: "Notifications", icon: "bell", tag: 2)
                     NavigationButton(title: "Direct Messages", icon: "envelope", tag: 3)
                     NavigationButton(title: "Profile", icon: "person", tag: 4)
@@ -66,7 +66,6 @@ struct ContentView: View {
             .background(Color(.black))
             Divider()
             VStack {
-                Text("Back")
                 switch navigationController.sideBarTab {
                 case 1:
                     HStack {
@@ -84,14 +83,34 @@ struct ContentView: View {
                         Text("Direct Messages View")
                     }
                 case 4:
-                    Spacer()
+                    HStack {
+                        Spacer()
+                        Text("Profile View")
+                    }
                     //ProfileView()
                 default:
                     switch navigationController.centerContent {
                     case .home:
                         FeedView()
                     case .chirp(let chirp):
-                        ChirpListElementView(chirp: chirp, skeleton: false)
+                        VStack {
+                            HStack {
+                                HStack {
+                                    Image(systemName: "arrow.left")
+                                    Text("Chirp")
+                                }.onTapGesture {
+                                    navigationController.centerContent = .home
+                                }
+                                .foregroundStyle(.primary)
+                                .padding()
+                                Spacer()
+                            }
+                            Rectangle()
+                                .fill(Color.accentColor)
+                                .frame(maxWidth: .infinity, maxHeight: 2)
+                            ChirpListElementView(chirp: chirp, skeleton: false)
+                            Spacer()
+                        }
                     default:
                         FeedView()
                     }
@@ -117,7 +136,7 @@ struct NavigationButton: View {
     var body: some View {
         HStack {
             HStack {
-                Image(systemName: icon)
+                Image(icon)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)

@@ -54,11 +54,8 @@
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>
-		<key>UILaunchScreen</key>
-		<dict>
-			<key>ImageName</key>
-			<string>AppIcon</string>
-		</dict>
+		<key>UIImageName</key>
+		<string>Chirpie</string>
 	</dict>
 </dict>
 </plist>

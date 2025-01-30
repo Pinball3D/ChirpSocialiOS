@@ -73,9 +73,9 @@ struct InterationButton: View {
     var interactedColor: Color {
         switch type {
         case .like:
-            return .red
+            return Color(red: 0.851, green: 0.176, blue: 0.125)
         case .rechirp:
-            return .green
+            return Color(red: 0.071, green: 0.718, blue: 0.416)
         case .reply:
             return .white
         }
@@ -97,22 +97,27 @@ struct InterationButton: View {
                 if type == .reply {
                     if accountManager.signedIn {
                         navigationController.replyComposeView = true
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 1.0)
                     } else {
                         let drop = Drop(stringLiteral: "Sign in to reply to posts")
                         Drops.show(drop)
+                        UINotificationFeedbackGenerator().notificationOccurred(.error)
                     }
                     
                 } else {
                     if accountManager.signedIn {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred(intensity: 1.0)
                         currentUserInteracted.toggle()
                         ChirpAPI().interact(action: type, chirp: chirp) { success, errorMessage in
                             if !success {
+                                UINotificationFeedbackGenerator().notificationOccurred(.error)
                                 let drop = Drop(stringLiteral: "Sign in to interact with posts")
                                 Drops.show(drop)
                                 currentUserInteracted = false
                             }
                         }
                     } else {
+                        UINotificationFeedbackGenerator().notificationOccurred(.error)
                         let drop = Drop(stringLiteral: "Sign in to interact with posts")
                         Drops.show(drop)
                     }
@@ -186,9 +191,11 @@ struct InteractionBar: View {
             if navigationController.intButtonType == 0 {
                 Spacer()
             }
-            if navigationController.intButtonType == 1 {
+            if navigationController.intButtonType == 1 || navigationController.intButtonType == 0 {
                 if devMode {
-                    Spacer()
+                    if navigationController.intButtonType == 1 {
+                        Spacer()
+                    }
                     NavigationLink {
                         DebugView(structToInspect: chirp)
                     } label: {

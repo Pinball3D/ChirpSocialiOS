@@ -1,5 +1,5 @@
 {
-  "originHash" : "e28560d120b56b4256e8de52e563a421f8b857d30c71383926bce3b3838a058d",
+  "originHash" : "c128cb2cba31ad422327b08bb5dd6711dcf531b095fd126683b0eda9130c8151",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -34,6 +34,15 @@
       "location" : "https://github.com/NuPlay/LinkPreview.git",
       "state" : {
         "revision" : "14ed9e55ee4ce651de85ce3a86daceba10214fea",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "navigation-stack-backport",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lm/navigation-stack-backport",
+      "state" : {
+        "revision" : "55acfe7693c233ddc7f62f887f0df6ebd779ef01",
         "version" : "1.1.0"
       }
     },

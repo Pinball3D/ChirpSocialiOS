@@ -4,9 +4,6 @@
     "" : {
 
     },
-    " " : {
-
-    },
     " started this conversation on October 19, 2024" : {
 
     },
@@ -116,6 +113,12 @@
     "Chirp for iOS" : {
 
     },
+    "Chirp regularly suspends accounts that break " : {
+
+    },
+    "Chirp Rules (web view)" : {
+
+    },
     "chirpAction" : {
       "comment" : "button that results in a chirp",
       "extractionState" : "manual",
@@ -214,7 +217,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "For You"
+            "value" : "For you"
           }
         }
       }
@@ -355,6 +358,9 @@
           }
         }
       }
+    },
+    "our rules" : {
+
     },
     "Password" : {
 
@@ -597,6 +603,9 @@
       }
     },
     "This account doesn't exist" : {
+
+    },
+    "This account is temporarily suspended" : {
 
     },
     "This App is not developed or sanctioned by Chirp. Report any bugs via my socials." : {

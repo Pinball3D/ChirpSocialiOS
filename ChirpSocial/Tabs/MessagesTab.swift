@@ -129,7 +129,7 @@ struct LeftMessage: View {
     var message: String
     var body: some View {
         HStack {
-            Text(message).padding().background(Color.secondary).clipShape(UnevenRoundedRectangle(topLeadingRadius: 20, bottomLeadingRadius: 7.5, bottomTrailingRadius: 20, topTrailingRadius: 20))
+            //Text(message).padding().background(Color.secondary).clipShape(UnevenRoundedRectangle(topLeadingRadius: 20, bottomLeadingRadius: 7.5, bottomTrailingRadius: 20, topTrailingRadius: 20))
             Spacer()
         }
     }
@@ -140,7 +140,7 @@ struct RightMessage: View {
     var body: some View {
         HStack {
             Spacer()
-            Text(message).padding().background(Color.accent).clipShape(UnevenRoundedRectangle(topLeadingRadius: 20, bottomLeadingRadius: 20, bottomTrailingRadius: 7.5, topTrailingRadius: 20))
+            //Text(message).padding().background(Color.accent).clipShape(UnevenRoundedRectangle(topLeadingRadius: 20, bottomLeadingRadius: 20, bottomTrailingRadius: 7.5, topTrailingRadius: 20))
         }
     }
 }

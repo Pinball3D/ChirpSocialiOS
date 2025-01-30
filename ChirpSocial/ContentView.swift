@@ -13,25 +13,90 @@ struct ContentView: View {
     @EnvironmentObject var accountManager: AccountManager
     @EnvironmentObject var navigationController: NavigationController
     @EnvironmentObject var themeManager: ThemeManager
-    @AppStorage("notificationBadgeCount") var notificationBadgeCount = UIApplication.shared.applicationIconBadgeNumber
+    //@AppStorage("notificationBadgeCount") var notificationBadgeCount = UIApplication.shared.applicationIconBadgeNumber
     @AppStorage("ver1.8") var isNew = true
     var body: some View {
         TabView(selection: $navigationController.selectedTab) {
-            HomeView().tabItem { Image(systemName: "house") }.tag(0)
-            DiscoverTab().tabItem { Image(systemName: "magnifyingglass") }.tag(1)
-            NotificationsTab().tabItem { Image(systemName: "bell") }.tag(2).badge(notificationBadgeCount)
-            MessagesTab().tabItem { Image(systemName: "envelope") }.tag(3)
-            ProfileTab().tabItem { Image(systemName: "person") }.tag(4)
-        }.onAppear {
-            notificationBadgeCount = UIApplication.shared.applicationIconBadgeNumber
+            VStack(spacing: 0) {
+                HomeView()
+                HStack {
+                    Rectangle()
+                        .fill(Color.accentColor)
+                        .frame(maxWidth: UIScreen.main.bounds.width / 5, maxHeight: 2)
+                        .offset(x: (UIScreen.main.bounds.width / 5) * 0, y: 0)
+                    Spacer()
+                }
+            }.tabItem {
+                Image("house").scaleEffect(0.5)
+            }.tag(0)
+            VStack(spacing: 0) {
+                DiscoverTab()
+                HStack {
+                    Rectangle()
+                        .fill(Color.accentColor)
+                        .frame(maxWidth: UIScreen.main.bounds.width / 5, maxHeight: 2)
+                        .offset(x: (UIScreen.main.bounds.width / 5) * 1, y: 0)
+                    Spacer()
+                }
+            }.tabItem {
+                Image("search")
+            }.tag(1)
+            VStack(spacing: 0) {
+                NotificationsTab()
+                HStack {
+                    Rectangle()
+                        .fill(Color.accentColor)
+                        .frame(maxWidth: UIScreen.main.bounds.width / 5, maxHeight: 2)
+                        .offset(x: (UIScreen.main.bounds.width / 5) * 2, y: 0)
+                    Spacer()
+                }
+            }.tabItem {
+                Image("bell")
+            }.tag(2)//.badge(notificationBadgeCount)
+            VStack(spacing: 0) {
+                MessagesTab()
+                HStack {
+                    Rectangle()
+                        .fill(Color.accentColor)
+                        .frame(maxWidth: UIScreen.main.bounds.width / 5, maxHeight: 2)
+                        .offset(x: (UIScreen.main.bounds.width / 5) * 3, y: 0)
+                    Spacer()
+                }
+            }.tabItem {
+                Image("envelope")
+            }.tag(3)
+            VStack(spacing: 0) {
+                ProfileTab()
+                HStack {
+                    Rectangle()
+                        .fill(Color.accentColor)
+                        .frame(maxWidth: UIScreen.main.bounds.width / 5, maxHeight: 2)
+                        .offset(x: (UIScreen.main.bounds.width / 5) * 4, y: 0)
+                    Spacer()
+                }
+            }.tabItem {
+                Image("person")
+                HStack {
+                    Rectangle()
+                        .fill(Color.accentColor)
+                        .frame(maxWidth: UIScreen.main.bounds.width / 5, maxHeight: 2)
+                        .offset(x: (UIScreen.main.bounds.width / 5) * 5, y: 0)
+                    Spacer()
+                }
+            }.tag(4)
+        }
+        .onAppear {
+            //notificationBadgeCount = UIApplication.shared.applicationIconBadgeNumber
             if let user = Utility.shared.getUser() {
-                ChirpAPI.shared.getProfile(username: user.username) { success, errorMessage, profile in
+                ChirpAPI.shared.getUser(username: user.username) { success, errorMessage, profile in
                     if success {
-                        Utility.shared.setUser(profile!)
+                        if profile != nil {
+                            Utility.shared.setUser(profile!)
+                        }
                     }
                 }
             }
-        }.popover(isPresented: $isNew) {
+        }.sheet(isPresented: $isNew) {
             WhatsNewView(whatsNew: WhatsNew(
                 title: .init(text: .init(whatsNewTitle())),
                 features: [
@@ -79,10 +144,16 @@ struct ContentView: View {
                     components.removeFirst()
                     let image = components.joined(separator: "/")
                     navigationController.imageOverlay = image
+                case "rules":
+                    navigationController.selectedTab = 0
+                    navigationController.route.append(.rules)
                 default:
                     Drops.show("An error occoured.")
                 }
             }
+        }
+        .onChange(of: navigationController.selectedTab) { newValue in
+            UISelectionFeedbackGenerator().selectionChanged()
         }
     }
     func whatsNewTitle() -> AttributedString {
