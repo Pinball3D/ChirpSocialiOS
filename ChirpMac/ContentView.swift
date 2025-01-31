@@ -15,7 +15,8 @@ struct ContentView: View {
     @State private var selectedTab: Int? = 0
     @Binding var needsToRefresh: Bool
     @State var smallSideBar = false
-
+    @State var searchText = ""
+    
     var body: some View {
             
             NavigationView {
@@ -138,8 +139,13 @@ struct ContentView: View {
                     .scrollIndicators(.never)
                     .frame(minWidth: 250)
                         .ignoresSafeArea(.all)
+                        .background(.ultraThinMaterial)
+
                     VStack {
                         List {
+                            TextField("Search Chirp", text: $searchText)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
                             Section("Trends") {
                                 VStack {
                                     Group {
@@ -166,13 +172,17 @@ struct ContentView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
+                            Section("Suggested Accounts") {
+                                RecommendedUserView(userImageURL: URL(string: "https://pbs.twimg.com/profile_images/1797665112440045568/305XgPDq_400x400.png")!, name: "Apple", username: "apple", verified: true)
+                                RecommendedUserView(userImageURL: URL(string: "https://pbs.twimg.com/profile_images/1881368435453542400/NnD56DYV_400x400.jpg")!, name: "President Trump", username: "POTUS", verified: true)
+                                RecommendedUserView(userImageURL: URL(string: "https://pbs.twimg.com/profile_images/1852687705823395840/h2Cqbe8i_400x400.jpg")!, name: "Chirp", username: "chirp", verified: true)
+                            }
                         }
                         .listStyle(SidebarListStyle())
                     }
                     .frame(minWidth: 175, maxWidth: 175)
                 }
             }
-            .background(Color.black)
             .environmentObject(navigationController)
             
     }
@@ -245,26 +255,33 @@ import SwiftUI
 // Your imports remain the same
 
 struct FeedView: View {
+    @State var chirpLoadingError = false
+    
     @Binding var needsToRefresh: Bool
     @State var chirps: [Chirp] = []
     @EnvironmentObject var navigationController: NavigationController
     var body: some View {
         VStack {
-            if chirps.isEmpty {
-                VStack {
-                    ProgressView()
-                    Text("Fetching the latest Chirps just for you...")
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                }
-                .padding()
+            if chirpLoadingError {
+                ChirpFailView()
             }
             else {
-
-            ScrollView {
-                
-                    ForEach(chirps) { chirp in
-                        ChirpListElementView(chirp: chirp, skeleton: false)
+                if chirps.isEmpty {
+                    VStack {
+                        ProgressView()
+                        Text("Fetching the latest Chirps just for you...")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                    }
+                    .padding()
+                }
+                else {
+                    
+                    ScrollView {
+                        
+                        ForEach(chirps) { chirp in
+                            ChirpListElementView(chirp: chirp, skeleton: false)
+                        }
                     }
                 }
             }
@@ -291,6 +308,7 @@ struct FeedView: View {
                 self.chirps = chirps
             case .failure(let error):
                 print("Error: \(error)")
+                chirpLoadingError = true
             }
         }
         needsToRefresh = false
@@ -343,3 +361,40 @@ struct ChirpRowView: View {
 
 
 // End of file. No additional code.
+
+struct RecommendedUserView: View {
+    let userImageURL: URL
+    let name: String
+    let username: String
+    let verified: Bool
+    
+    var body: some View {
+        HStack {
+            AsyncImage(url: userImageURL) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                            .controlSize(.large)
+                    }
+                .scaledToFit()
+                .frame(width: 25,  height: 25)
+                .background(.secondary)
+                .cornerRadius(100)
+            VStack {
+                Group {
+                    HStack {
+                        Text(name)
+                        if verified {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.blue)
+                                .scaleEffect(0.75)
+                        }
+                    }
+                    Text("@\(username)")
+                        .foregroundStyle(.gray)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+}
